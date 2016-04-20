@@ -7,6 +7,8 @@ var header_widths = new Array(3);
 var add_alias_form = document.getElementById("add-alias");
 var add_character_pack = document.getElementById("add-character-pack");
 var remove_character_pack = document.getElementById("remove-character-pack");
+var remove_all_aliases = document.getElementById("remove-all-aliases");
+var add_basic_dashes = document.getElementById("add-basic-dashes");
 var current_num_files, save_count;
 
 const character_packs = {
@@ -63,6 +65,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	remove_character_pack.addEventListener('click', function (event) {
 		remove_pack(character_packs[character_pack_select.options[character_pack_select.selectedIndex].value]);
 	});
+	remove_all_aliases.addEventListener('click', function (event) {
+		removeAllAliases();
+	});
+	add_basic_dashes.addEventListener('click', function (event) {
+		add_pack([["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]]);
+	});
 	exchange_table_body.addEventListener('click', function (event) {
 		if (event.target.dataset.alias)
 			remove_alias(event.target.dataset.alias, true);
@@ -116,6 +124,12 @@ function remove_alias(alias, save) {
 			save_custom_exchange();
 	}
 	return index[1];
+}
+
+function removeAllAliases() {
+	custom_exchange = [];
+	new_table_html();
+	save_custom_exchange();
 }
 
 function add_pack(pack) {
