@@ -16,10 +16,9 @@ document.onkeypress = function(evt) {
 	active = get_active(evt.target);
 	var current = get_active_text();
 	var curr_index = doGetCaretPosition(active);
-	var next_str = current.substring(0, curr_index) + charString + current.substring(curr_index);
 	if (enabled && current && charCode !== 8 && charCode !== 46) {
+		var next_str = current.substring(0, curr_index) + charString + current.substring(curr_index);
 		var exchange = get_exchange(next_str, curr_index + 1);
-		previous = next_str;
 		if (exchange) {
 			future_char = possible_future_exchange_char(next_str, curr_index + 1, exchange);
 			if (future_char !== false)
@@ -29,24 +28,21 @@ document.onkeypress = function(evt) {
 				evt.preventDefault();
 			}
 		}
-		else if (past_exchange_exists && !just_undone && charString !== future_char) {
+		else if (past_exchange_exists && !just_undone && charString !== future_char)
 			current = swap(current, curr_index, past_exchange_exists[0].length, past_exchange_exists);
-			previous = current;
-		}
 		else	{
 			past_exchange_exists = false;
 			future_char = false;
 		}
 		just_undone = false;
 	}
-	else previous = next_str;
+	previous = current;
 }
 
 function swap(current, curr_index, exchange_len, exchange) {
 	current = current.substring(0, curr_index - exchange_len) + exchange[1] + current.substring(curr_index);
 	set_active_text(current);
 	setCaretPosition(active, curr_index + exchange[1].length - exchange_len);
-	console.log("index", curr_index + exchange[1].length - exchange_len);
 	past_exchange_exists = false;
 	return current;
 }
@@ -56,24 +52,19 @@ document.onkeydown = function(evt) {
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = get_active(evt.target);
-		var active_text = get_active_text();
-		var current = active_text;
+		var current = active.value === undefined ? previous:get_active_text();
 		if (current === undefined)
-			current = active_text;
+			current = get_active_text();
 		var curr_index = doGetCaretPosition(active);
-		var next_str = current.substring(0, curr_index) + current.substring(curr_index + 1);
 		if (active.value === undefined)
 			curr_index++;
 		var exchange = get_change(current, curr_index);
-		console.log(curr_index, exchange, current, previous, active_text);
 		if (exchange) {
-			evt.preventDefault();
 			current = current.substring(0, curr_index - exchange[1].length) + exchange[0] + current.substring(curr_index);
 			set_active_text(current);
-			setCaretPosition(active, 0);
+			setCaretPosition(active, curr_index - exchange[1].length + exchange[0].length);
 			just_undone = true;
 			previous = current;
-			console.log(current, active, active.innerHTML);
 			return false;
 		}
 		// if (active.value === undefined) {
@@ -83,9 +74,7 @@ document.onkeydown = function(evt) {
 		// 	previous = current;
 		// 	return false;
 		// }
-		// evt.preventDefault();
-		previous = next_str;
-		console.log(previous);
+		previous = get_active_text();
 	}
 	// previous = get_active_text();
 }
