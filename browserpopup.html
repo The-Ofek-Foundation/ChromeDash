@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="browserpopup.css">
+		<script type="text/javascript" src="general.js"></script>
+	</head>
+	<body>
+		Enable App <input type="checkbox" name="enable-dash">
+		<br />
+		Add/Edit your own custom aliases:
+		<br /><br />
+		<form id="add-alias">
+			<input type="text" name="alias-from" placeholder="CD" required>
+			<input type="text" name="alias-to" placeholder="ChromeDash" required>
+			<input type="submit" value="Add">
+		</form>
+		<br />
+		<strong>Add/Reset a Character Pack:</strong>
+		<br /><br />
+		<div>
+			<select id="character-pack-select">
+				<option value="EMPTY" selected="selected">Select a Pack</option>
+			</select>
+			<button id="add-character-pack">Add Pack</button>
+			<button id="remove-character-pack">Remove Pack</button>
+		</div>
+		<br /><br />
+		Custom Aliases:
+		<br />
+		<table id="exchange-header" align="center">
+			<tr>
+				<th>Alias from:</th>
+				<th>Alias to:</th>
+				<th>Delete Alias</th>
+			</tr>
+		</table>
+		<table id="exchange-table" align="center">
+				<tbody id="exchange-table-body"></tbody>
+			</div>
+		</table>
+	</body>
+	<script type="text/javascript" src="browserpopup.js"></script>
+</html>

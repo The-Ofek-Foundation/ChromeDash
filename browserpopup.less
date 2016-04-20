@@ -1,0 +1,46 @@
+body {
+	width: 30em;
+	text-align: center;
+	padding-bottom: 2em;
+}
+
+#add-alias {
+	input {
+		&[type=text] {
+			width: 35%;
+		}
+		&[type=submit] {
+			width: 15%;
+		}
+	}
+}
+
+#exchange-table, #exchange-header {
+	width: 85%;
+	text-align: left;
+	td, th {
+		padding: 0.5em 1em;
+		padding-bottom: 0em;
+		display: inline-block;
+		overflow-x: auto;
+	}
+	tbody {
+		display: block;
+		max-height: 10em;
+		overflow-y: auto;
+		overflow-x: hidden;
+		width: 25.5em;
+		tr {
+			width: 100%;
+		}
+	}
+}
+
+#exchange-header {
+	display: block;
+	height: 2em;
+}
+
+.left-align {
+	text-align: left;
+}
