@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "ChromeDash",
 	"short_name": "ChromeDash",
-	"version": "0.1.6.0",
+	"version": "1.0.0.0",
 	"description": "Enter dashes, accents, greek letters, or alias in general—quickly!",
 	"browser_action": {
 		"default_icon": "browsericon.png",
@@ -21,6 +21,7 @@
 	"author": "Ofek Gila",
 	"content_scripts": [
 		{
+			"all_frames": true,
 			"matches": [
 				"<all_urls>"
 			],
