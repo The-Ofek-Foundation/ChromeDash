@@ -52,12 +52,13 @@ document.onkeydown = function(evt) {
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = get_active(evt.target);
-		var current = active.value === undefined ? previous:get_active_text();
-		if (current === undefined)
-			current = get_active_text();
+		// var current = active.value === undefined ? previous:get_active_text();
+		// if (current === undefined)
+		current = get_active_text();
 		var curr_index = doGetCaretPosition(active);
-		if (active.value === undefined)
-			curr_index++;
+		console.log(current, curr_index, active, active.innerHTML);
+		// if (active.value === undefined)
+		// 	curr_index++;
 		var exchange = get_change(current, curr_index);
 		if (exchange) {
 			current = current.substring(0, curr_index - exchange[1].length) + exchange[0] + current.substring(curr_index);
@@ -200,6 +201,7 @@ function getCaretPosition(editableDiv) {
 function setCaretPosition(ctrl, pos)	{
 	if (ctrl.value === undefined) {
 		setCaretPositionDiv(ctrl, pos);
+		console.log("heya");
 		return;
 	}
 	if (ctrl.setSelectionRange)	{
