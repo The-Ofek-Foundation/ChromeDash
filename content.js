@@ -1,3 +1,5 @@
+const bad_div_hostnames = ["www.facebook.com", "www.messenger.com"];
+
 var custom_exchange = [["--", "–"], ["---", "—"]];
 var storage_custom_exchanges = {};
 var just_undone = false;
@@ -6,6 +8,16 @@ var previous;
 var active;
 var past_exchange_exists = false;
 var future_char = false;
+
+var bad_editable_divs = false;
+
+document.onload = function (evt) {
+	for (var i = 0; i < bad_div_domains.length; i++)
+		if (window.location.hostname === bad_div_hostnames[i]) {
+			bad_editable_divs = true;
+			break;
+		}
+}
 
 load_data_from_storage();
 
@@ -52,11 +64,15 @@ document.onkeydown = function(evt) {
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = get_active(evt.target);
-		// var current = active.value === undefined ? previous:get_active_text();
-		// if (current === undefined)
 		current = get_active_text();
 		var curr_index = doGetCaretPosition(active);
-		console.log(current, curr_index, active, active.innerHTML);
+		if (bad_editable_divs && active.value === undefined) {
+			current = previous;
+			curr_index++;
+		}
+		// console.log(current, curr_index, active, active.innerHTML);
+		// var current = active.value === undefined ? previous:get_active_text();
+		// if (current === undefined)
 		// if (active.value === undefined)
 		// 	curr_index++;
 		var exchange = get_change(current, curr_index);
@@ -201,7 +217,6 @@ function getCaretPosition(editableDiv) {
 function setCaretPosition(ctrl, pos)	{
 	if (ctrl.value === undefined) {
 		setCaretPositionDiv(ctrl, pos);
-		console.log("heya");
 		return;
 	}
 	if (ctrl.setSelectionRange)	{
