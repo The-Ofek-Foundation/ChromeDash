@@ -23,12 +23,12 @@ load_data_from_storage();
 
 document.onkeypress = function(evt) {
 	evt = evt || window.event;
-	var charCode = evt.keyCode || evt.which;
+	var charCode = evt.which || evt.keyCode;
 	var charString = String.fromCharCode(charCode);
 	active = get_active(evt.target);
 	var current = get_active_text();
 	var curr_index = doGetCaretPosition(active);
-	if (enabled && current && charCode !== 8 && charCode !== 46) {
+	if (enabled && current) {
 		var next_str = current.substring(0, curr_index) + charString + current.substring(curr_index);
 		var exchange = get_exchange(next_str, curr_index + 1);
 		if (exchange) {
