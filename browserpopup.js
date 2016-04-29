@@ -84,7 +84,7 @@ chrome.storage.sync.get("dash_enabled", function (result) {
 	var dash_enabled = result.dash_enabled;
 	if (dash_enabled !== false)
 		input_dash.checked = true;
-	else dash_enabled = false;
+	else input_dash.checked = false;
 });
 
 chrome.storage.sync.get("custom_exchange_info", function (result) {
