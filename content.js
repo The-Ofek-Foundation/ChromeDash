@@ -28,7 +28,7 @@ document.onkeypress = function(evt) {
 	active = get_active(evt.target);
 	var current = get_active_text();
 	var curr_index = doGetCaretPosition(active);
-	if (enabled && current) {
+	if (enabled && current && curr_index !== false) {
 		var next_str = current.substring(0, curr_index) + charString + current.substring(curr_index);
 		var exchange = get_exchange(next_str, curr_index + 1);
 		if (exchange) {
@@ -66,6 +66,8 @@ document.onkeydown = function(evt) {
 		active = get_active(evt.target);
 		current = get_active_text();
 		var curr_index = doGetCaretPosition(active);
+		if (curr_index === false)
+			return;
 		if (bad_editable_divs && active.value === undefined) {
 			current = previous;
 			curr_index++;
@@ -175,6 +177,8 @@ function get_change(str, index) {
 function doGetCaretPosition (oField) {
 	if (oField.value === undefined)
 		return getCaretPosition(oField);
+	if (oField.selectionStart !== oField.selectionEnd)
+		return false;
 	var iCaretPos = 0;
 	if (document.selection) {
 		oField.focus();
@@ -196,6 +200,8 @@ function getCaretPosition(editableDiv) {
       range = sel.getRangeAt(0);
       if (range.commonAncestorContainer.parentNode == editableDiv) {
         caretPos = range.endOffset;
+        if (range.endOffset !== range.startOffset)
+        	return false;
       }
     }
   } else if (document.selection && document.selection.createRange) {

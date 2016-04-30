@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function alignAddRemoveAliasForms() {
 	var widthtop = add_alias_form.children[2].getBoundingClientRect().right - add_alias_form.children[0].getBoundingClientRect().left
 	var widthbot = remove_alias_form.children[1].getBoundingClientRect().right - remove_alias_form.children[0].getBoundingClientRect().left
-	console.log(widthtop, widthbot);
 	remove_alias_form.children[1].style.width = trueElemWidth(remove_alias_form.children[1]) + widthtop - widthbot + "px";
 }
 
