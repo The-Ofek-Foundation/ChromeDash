@@ -97,3 +97,13 @@ var mergesort = function (array, /* optional */ cmp) {
 
 	return array;
 };
+
+function trueElemWidth(elem) {
+	var rect = elem.getBoundingClientRect();
+	return rect.right - rect.left
+}
+
+function trueElemHeight(elem) {
+	var rect = elem.getBoundingClientRect();
+	return rect.bottom - rect.top
+}

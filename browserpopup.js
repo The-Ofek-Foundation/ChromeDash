@@ -5,6 +5,7 @@ var character_pack_select = document.getElementById("character-pack-select");
 var custom_exchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
 var header_widths = new Array(3);
 var add_alias_form = document.getElementById("add-alias");
+var remove_alias_form = document.getElementById("remove-alias");
 var add_character_pack = document.getElementById("add-character-pack");
 var remove_character_pack = document.getElementById("remove-character-pack");
 var remove_all_aliases = document.getElementById("remove-all-aliases");
@@ -48,6 +49,7 @@ function add_character_pack_options() {
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
+	alignAddRemoveAliasForms();
 	input_dash.addEventListener('change', function (event) {
 		chrome.storage.sync.set({"dash_enabled": input_dash.checked});
 	});
@@ -55,6 +57,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 		add_alias(add_alias_form.children[0].value, add_alias_form.children[1].value, true);
 		add_alias_form.children[0].value = "";
 		add_alias_form.children[1].value = "";
+		if (event.preventDefault)
+			event.preventDefault();
+		event.returnValue = false;
+	});
+	remove_alias_form.addEventListener('submit', function (event) {
+		remove_alias(remove_alias_form.children[0].value);
+		remove_alias_form.children[0].value = "";
 		if (event.preventDefault)
 			event.preventDefault();
 		event.returnValue = false;
@@ -79,6 +88,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	for (var i = 1; i <= 3; i++)
 		header_widths[i-1] = exchange_header.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
 });
+
+function alignAddRemoveAliasForms() {
+	var widthtop = add_alias_form.children[2].getBoundingClientRect().right - add_alias_form.children[0].getBoundingClientRect().left
+	var widthbot = remove_alias_form.children[1].getBoundingClientRect().right - remove_alias_form.children[0].getBoundingClientRect().left
+	console.log(widthtop, widthbot);
+	remove_alias_form.children[1].style.width = trueElemWidth(remove_alias_form.children[1]) + widthtop - widthbot + "px";
+}
 
 chrome.storage.sync.get("dash_enabled", function (result) {
 	var dash_enabled = result.dash_enabled;

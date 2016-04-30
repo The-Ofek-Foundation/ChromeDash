@@ -17,6 +17,12 @@ body {
 #add-alias input[type=submit] {
   width: 15%;
 }
+#remove-alias input[type=text] {
+  width: 60%;
+}
+#remove-alias input[type=submit] {
+  width: 25%;
+}
 #exchange-table,
 #exchange-header {
   width: 85%;
