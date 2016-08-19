@@ -11,13 +11,14 @@ var future_char = false;
 
 var bad_editable_divs = false;
 
-document.onload = function (evt) {
-	for (var i = 0; i < bad_div_domains.length; i++)
+function checkHostname() {
+	for (var i = 0; i < bad_div_hostnames.length; i++)
 		if (window.location.hostname === bad_div_hostnames[i]) {
 			bad_editable_divs = true;
 			break;
 		}
 }
+checkHostname();
 
 load_data_from_storage();
 
@@ -68,6 +69,7 @@ document.onkeydown = function(evt) {
 		var curr_index = doGetCaretPosition(active);
 		if (curr_index === false)
 			return;
+		console.log(bad_editable_divs, active.value);
 		if (bad_editable_divs && active.value === undefined) {
 			current = previous;
 			curr_index++;
@@ -107,7 +109,7 @@ function get_active_text() {
 function set_active_text(text) {
 	if (active.value !== undefined)
 		active.value = text;
-	else active.innerHTML = text;
+	else active.firstChild.nodeValue = text;
 }
 
 function get_active(elem) {
