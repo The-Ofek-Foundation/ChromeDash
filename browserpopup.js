@@ -1,4 +1,5 @@
 var inputDash = document.querySelector("input[name=enable-dash]");
+var inputPasswords = document.querySelector("input[name=enable-passwords]");
 var exchangeTableBody = document.getElementById("exchange-table-body");
 var exchangeHeader = document.getElementById("exchange-header");
 var characterPackSelect = document.getElementById("character-pack-select");
@@ -53,6 +54,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	inputDash.addEventListener('change', function (event) {
 		chrome.storage.sync.set({"dashEnabled": inputDash.checked});
 	});
+	inputPasswords.addEventListener('change', function (event) {
+		chrome.storage.sync.set({"enablePasswords": inputPasswords.checked});
+	});
 	addAliasForm.addEventListener('submit', function (event) {
 		addAlias(addAliasForm.children[0].value, addAliasForm.children[1].value, true);
 		addAliasForm.children[0].value = "";
@@ -96,10 +100,11 @@ function alignAddRemoveAliasForms() {
 }
 
 chrome.storage.sync.get("dashEnabled", function (result) {
-	var dashEnabled = result.dashEnabled;
-	if (dashEnabled !== false)
-		inputDash.checked = true;
-	else inputDash.checked = false;
+	inputDash.checked = results.dashEnabled === true;
+});
+
+chrome.storage.sync.get("enablePasswords", function (result) {
+	inputPasswords.checked = result.enablePasswords === true;
 });
 
 chrome.storage.sync.get("customExchangeInfo", function (result) {

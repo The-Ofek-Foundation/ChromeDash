@@ -4,6 +4,7 @@ var customExchange = [["--", "–"], ["---", "—"]];
 var storageCustomExchanges = {};
 var justUndone = false;
 var enabled;
+var enablePasswords;
 var previous;
 var active;
 var pastExchangeExists = false;
@@ -27,6 +28,8 @@ document.onkeypress = function(evt) {
 	var charCode = evt.which || evt.keyCode;
 	var charString = String.fromCharCode(charCode);
 	active = getActive(evt.target);
+	if (!active)
+		return;
 	var current = getActiveText();
 	var currentIndex = doGetCaretPosition(active);
 	if (enabled && current && currentIndex !== false) {
@@ -65,6 +68,8 @@ document.onkeydown = function(evt) {
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = getActive(evt.target);
+		if (!active)
+			return;
 		current = getActiveText();
 		var currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
@@ -113,10 +118,11 @@ function setActiveText(text) {
 }
 
 function getActive(elem) {
-	if (elem.value !== undefined)
-		return elem;
-	else while (elem.children.length > 0)
-		elem = elem.children[0];
+	if (elem.value === undefined)
+		while (elem.children.length > 0)
+			elem = elem.children[0];
+	if (!enablePasswords && elem.type && elem.type === 'password')
+		return false;
 	return elem;
 }
 
@@ -288,6 +294,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 			case "dashEnabled":
 				enabled = changes[key].newValue;
 				break;
+			case "enablePasswords":
+				enablePasswords = changes[key].newValue;
+				break;
 			case "customExchangeInfo":
 				var customExchangeInfo = changes[key].newValue;
 				for (var i = 1; i <= customExchangeInfo.numFiles; i++) {
@@ -332,6 +341,9 @@ function loadDataFromStorage() {
 			chrome.storage.sync.get("dashEnabled", function (result) {
 				enabled = result.dashEnabled;
 			});
+			chrome.storage.sync.get("enablePasswords", function (result) {
+				enablePasswords = result.enablePasswords;
+			});
 			chrome.storage.sync.get("customExchangeInfo", function (result) {
 				var customExchangeInfo = result["customExchangeInfo"];
 				customExchange = new Array(customExchangeInfo.numExchanges);
@@ -340,6 +352,7 @@ function loadDataFromStorage() {
 		}
 		else {
 			chrome.storage.sync.set({"dashEnabled": true});
+			chrome.storage.sync.set({"enablePasswords": false});
 			chrome.storage.sync.set({"customExchange": customExchange});
 			chrome.storage.sync.set({"initialMark": true});
 		}
