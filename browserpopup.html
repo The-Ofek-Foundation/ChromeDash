@@ -6,33 +6,33 @@
 		<script type="text/javascript" src="general.js"></script>
 	</head>
 	<body>
-		<strong>Add/Edit your own custom aliases:</strong>
+		<span class="command-description">Add/Edit your own custom aliases:</span>
 		<br /><br />
 		<form id="add-alias">
 			<input type="text" name="alias-from" placeholder="CD" required>
 			<input type="text" name="alias-to" placeholder="ChromeDash" required>
-			<input type="submit" value="Add">
+			<input type="submit" value="Add" title="adds/updates matching alias">
 		</form>
 		<br />
-		<strong>Remove an alias:</strong>
+		<span class="command-description">Remove an alias:</span>
 		<br /><br />
 		<form id="remove-alias">
 			<input type="text" name="alias-remove" placeholder="CD" required></input>
-			<input type="submit" value="Remove">
+			<input type="submit" value="Remove" title="removes matching alias">
 		</form>
 		<br />
-		<strong>Add/Reset a Character Pack:</strong>
+		<span class="command-description">Add/Reset a Character Pack:</span>
 		<br /><br />
 		<div>
-			<select id="character-pack-select">
+			<select id="character-pack-select" title="select a character pack to add/remove">
 				<option value="EMPTY" selected="selected">Select a Pack</option>
 			</select>
-			<button id="add-character-pack">Add Pack</button>
-			<button id="remove-character-pack">Remove Pack</button>
+			<button id="add-character-pack" title="adds a character pack">Add Pack</button>
+			<button id="remove-character-pack" title="removes a character pack">Remove Pack</button>
 		</div>
 		<br />
-		<button id="remove-all-aliases">Clear All</button>
-		<button id="add-basic-dashes">Add Dashes</button>
+		<button id="remove-all-aliases" title="removes all aliases">Clear All</button>
+		<button id="add-basic-dashes" title="adds em-dash and en-dash aliases">Add Dashes</button>
 		<br /><br />
 		<table id="exchange-header" align="center">
 			<tr>
@@ -45,7 +45,7 @@
 				<tbody id="exchange-table-body"></tbody>
 		</table>
 		<div class="footer">
-			<div id="enable-passwords-div">
+			<div id="enable-passwords-div" title="enables passwords in password-style (hidden) text areas">
 				Enable for Passwords:
 				<input type="checkbox" name="enable-passwords">
 			</div>
