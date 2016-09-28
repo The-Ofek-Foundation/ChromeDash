@@ -74,7 +74,7 @@ document.onkeydown = function(evt) {
 		var currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		console.log(badEditableDivs, active.value);
+		// console.log(badEditableDivs, active.value);
 		if (badEditableDivs && active.value === undefined) {
 			current = previous;
 			currentIndex++;
@@ -336,6 +336,7 @@ function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
 }
 
 function loadDataFromStorage() {
+	var details = ['initialMark', 'dashEnabled', 'enablePasswords', 'customExchangeInfo'];
 	chrome.storage.sync.get("initialMark", function (result) {
 		if (result.initialMark) {
 			chrome.storage.sync.get("dashEnabled", function (result) {
@@ -353,7 +354,7 @@ function loadDataFromStorage() {
 		else {
 			chrome.storage.sync.set({"dashEnabled": true});
 			chrome.storage.sync.set({"enablePasswords": false});
-			chrome.storage.sync.set({"customExchange": customExchange});
+			saveCustomExchange(customExchange, 0, 0);
 			chrome.storage.sync.set({"initialMark": true});
 		}
 		chrome.storage.sync.set({"currentVersion": chrome.runtime.getManifest().version});

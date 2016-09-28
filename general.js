@@ -1,3 +1,50 @@
+function saveCustomExchange(customExchange, saveCount, currentNumFiles) {
+	var customExchangesJson = JSON.stringify(customExchange);
+	var customExchangesByteCount = byteCount(customExchangesJson);
+	var numSplits = 1;
+	var set = {};
+	var fileSizeCutoff = 7500;
+	if (customExchangesByteCount > 100000) {
+		alert("Too many aliases!");
+		return;
+	}
+	else if (customExchangesByteCount > fileSizeCutoff) {
+		numSplits = customExchangesByteCount / fileSizeCutoff + 1 | 0;
+		var splitStart = 0, splitEnd;
+		for (var i = 1; i <= numSplits; i++) {
+			splitEnd = getSplitEnd(splitStart, fileSizeCutoff);
+			set["customExchange" + (i === 1 ? '':i)] = customExchange.slice(splitStart, splitEnd);
+			splitStart = splitEnd; }
+	}
+	else	set["customExchange"] = customExchange;
+	saveCount++;
+	set["customExchangeInfo"] = {
+		"numExchanges": customExchange.length,
+		"numFiles": numSplits,
+		"byteCount": customExchangesByteCount,
+		"saveCount": saveCount, // to trigger change event
+		"sorted": true,
+	};
+	chrome.storage.sync.set(set);
+	if (numSplits < currentNumFiles) {
+		var remove = new Array(currentNumFiles - numSplits);
+		for (var i = numSplits + 1, count = 0; i <= currentNumFiles; i++, count++)
+			remove[count] = "customExchange" + (i === 1 ? '':i);
+		chrome.storage.sync.remove(remove);
+	}
+	currentNumFiles = numSplits;
+	return [saveCount, currentNumFiles];
+}
+
+function getSplitEnd(start, size) {
+	for (; start < customExchange.length && size > 0; start++)
+		size -= byteCount(customExchange[start][0] + customExchange[start][1]) + 8;
+	return size <= 0 ? (start-1):start;
+}
+
+function byteCount(s) {
+	return encodeURI(s).split(/%..|./).length - 1;
+}
 
 function findExchangeIndex(alias) {
 	var minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
