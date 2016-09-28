@@ -56,10 +56,16 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   width: 25.5em;
+  text-align: center;
 }
 #exchange-table tbody tr,
 #exchange-header tbody tr {
   width: 100%;
+  display: block;
+}
+#exchange-table tbody tr td,
+#exchange-header tbody tr td {
+  text-align: left;
 }
 #exchange-header {
   display: block;

@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "ChromeDash",
 	"short_name": "ChromeDash",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Enter dashes, accents, Greek letters, or alias in general—quickly!",
 	"browser_action": {
 		"default_icon": "browsericon.png",
