@@ -1,62 +1,62 @@
-const bad_div_hostnames = ["www.facebook.com", "www.messenger.com"];
+const badDivHostnames = ["www.facebook.com", "www.messenger.com"];
 
-var custom_exchange = [["--", "–"], ["---", "—"]];
-var storage_custom_exchanges = {};
-var just_undone = false;
+var customExchange = [["--", "–"], ["---", "—"]];
+var storageCustomExchanges = {};
+var justUndone = false;
 var enabled;
 var previous;
 var active;
-var past_exchange_exists = false;
-var future_char = false;
+var pastExchangeExists = false;
+var futureCharacter = false;
 
-var bad_editable_divs = false;
+var badEditableDivs = false;
 
 function checkHostname() {
-	for (var i = 0; i < bad_div_hostnames.length; i++)
-		if (window.location.hostname === bad_div_hostnames[i]) {
-			bad_editable_divs = true;
+	for (var i = 0; i < badDivHostnames.length; i++)
+		if (window.location.hostname === badDivHostnames[i]) {
+			badEditableDivs = true;
 			break;
 		}
 }
 checkHostname();
 
-load_data_from_storage();
+loadDataFromStorage();
 
 document.onkeypress = function(evt) {
 	evt = evt || window.event;
 	var charCode = evt.which || evt.keyCode;
 	var charString = String.fromCharCode(charCode);
-	active = get_active(evt.target);
-	var current = get_active_text();
-	var curr_index = doGetCaretPosition(active);
-	if (enabled && current && curr_index !== false) {
-		var next_str = current.substring(0, curr_index) + charString + current.substring(curr_index);
-		var exchange = get_exchange(next_str, curr_index + 1);
+	active = getActive(evt.target);
+	var current = getActiveText();
+	var currentIndex = doGetCaretPosition(active);
+	if (enabled && current && currentIndex !== false) {
+		var nextString = current.substring(0, currentIndex) + charString + current.substring(currentIndex);
+		var exchange = getExchange(nextString, currentIndex + 1);
 		if (exchange) {
-			future_char = possible_future_exchange_char(next_str, curr_index + 1, exchange);
-			if (future_char !== false)
-				past_exchange_exists = exchange;
+			futureCharacter = possibleFutureExchangeCharacter(nextString, currentIndex + 1, exchange);
+			if (futureCharacter !== false)
+				pastExchangeExists = exchange;
 			else {
-				current = swap(current, curr_index, exchange[0].length - 1, exchange);
+				current = swap(current, currentIndex, exchange[0].length - 1, exchange);
 				evt.preventDefault();
 			}
 		}
-		else if (past_exchange_exists && !just_undone && charString !== future_char)
-			current = swap(current, curr_index, past_exchange_exists[0].length, past_exchange_exists);
+		else if (pastExchangeExists && !justUndone && charString !== futureCharacter)
+			current = swap(current, currentIndex, pastExchangeExists[0].length, pastExchangeExists);
 		else	{
-			past_exchange_exists = false;
-			future_char = false;
+			pastExchangeExists = false;
+			futureCharacter = false;
 		}
-		just_undone = false;
+		justUndone = false;
 	}
 	previous = current;
 }
 
-function swap(current, curr_index, exchange_len, exchange) {
-	current = current.substring(0, curr_index - exchange_len) + exchange[1] + current.substring(curr_index);
-	set_active_text(current);
-	setCaretPosition(active, curr_index + exchange[1].length - exchange_len);
-	past_exchange_exists = false;
+function swap(current, currentIndex, exchangeLength, exchange) {
+	current = current.substring(0, currentIndex - exchangeLength) + exchange[1] + current.substring(currentIndex);
+	setActiveText(current);
+	setCaretPosition(active, currentIndex + exchange[1].length - exchangeLength);
+	pastExchangeExists = false;
 	return current;
 }
 
@@ -64,55 +64,55 @@ document.onkeydown = function(evt) {
 	evt = evt || window.event;
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
-		active = get_active(evt.target);
-		current = get_active_text();
-		var curr_index = doGetCaretPosition(active);
-		if (curr_index === false)
+		active = getActive(evt.target);
+		current = getActiveText();
+		var currentIndex = doGetCaretPosition(active);
+		if (currentIndex === false)
 			return;
-		console.log(bad_editable_divs, active.value);
-		if (bad_editable_divs && active.value === undefined) {
+		console.log(badEditableDivs, active.value);
+		if (badEditableDivs && active.value === undefined) {
 			current = previous;
-			curr_index++;
+			currentIndex++;
 		}
-		// console.log(current, curr_index, active, active.innerHTML);
-		// var current = active.value === undefined ? previous:get_active_text();
+		// console.log(current, currentIndex, active, active.innerHTML);
+		// var current = active.value === undefined ? previous:getActiveText();
 		// if (current === undefined)
 		// if (active.value === undefined)
-		// 	curr_index++;
-		var exchange = get_change(current, curr_index);
+		// 	currentIndex++;
+		var exchange = getChange(current, currentIndex);
 		if (exchange) {
-			current = current.substring(0, curr_index - exchange[1].length) + exchange[0] + current.substring(curr_index);
-			set_active_text(current);
-			setCaretPosition(active, curr_index - exchange[1].length + exchange[0].length);
-			just_undone = true;
+			current = current.substring(0, currentIndex - exchange[1].length) + exchange[0] + current.substring(currentIndex);
+			setActiveText(current);
+			setCaretPosition(active, currentIndex - exchange[1].length + exchange[0].length);
+			justUndone = true;
 			previous = current;
 			return false;
 		}
 		// if (active.value === undefined) {
-		// 	current = current.substring(0, curr_index) + current.substring(curr_index + 1);
-		// 	set_active_text(current);
-		// 	setCaretPosition(active, curr_index - 1);
+		// 	current = current.substring(0, currentIndex) + current.substring(currentIndex + 1);
+		// 	setActiveText(current);
+		// 	setCaretPosition(active, currentIndex - 1);
 		// 	previous = current;
 		// 	return false;
 		// }
-		previous = get_active_text();
+		previous = getActiveText();
 	}
-	// previous = get_active_text();
+	// previous = getActiveText();
 }
 
-function get_active_text() {
+function getActiveText() {
 	if (active.value !== undefined)
 		return active.value;
 	else return active.innerHTML;
 }
 
-function set_active_text(text) {
+function setActiveText(text) {
 	if (active.value !== undefined)
 		active.value = text;
 	else active.firstChild.nodeValue = text;
 }
 
-function get_active(elem) {
+function getActive(elem) {
 	if (elem.value !== undefined)
 		return elem;
 	else while (elem.children.length > 0)
@@ -120,18 +120,18 @@ function get_active(elem) {
 	return elem;
 }
 
-function get_diff_index(s1, s2) {
-	var shorter_len = s1.length < s2.length ? s1.length:s2.length;
+function getDifferingIndex(s1, s2) {
+	var shorterLength = s1.length < s2.length ? s1.length:s2.length;
 	var i;
-	for (i = 0; i < shorter_len; i++)
+	for (i = 0; i < shorterLength; i++)
 		if (s1.charAt(i) !== s2.charAt(i))
 			return i;
-	if (i === shorter_len)
-		return shorter_len;
+	if (i === shorterLength)
+		return shorterLength;
 	return -1;
 }
 
-function count_dashs(str, index) {
+function countDashes(str, index) {
 	var count = 0;
 	for (index -= 1; index >= 0; index--, count++)
 		if (str.charAt(index) !== '-')
@@ -139,36 +139,36 @@ function count_dashs(str, index) {
 	return count;
 }
 
-function get_exchange(str, index) {
+function getExchange(str, index) {
 	var longest = false;
-	for (var i = 0; i < custom_exchange.length; i++)
-		if (!longest || custom_exchange[i][0].length > longest[0].length)
-			if (index >= custom_exchange[i][0].length && str.substring(index - custom_exchange[i][0].length, index) === custom_exchange[i][0])
-				longest = custom_exchange[i];
+	for (var i = 0; i < customExchange.length; i++)
+		if (!longest || customExchange[i][0].length > longest[0].length)
+			if (index >= customExchange[i][0].length && str.substring(index - customExchange[i][0].length, index) === customExchange[i][0])
+				longest = customExchange[i];
 	return longest;
 }
 
-function count_exchanges(str, index, exchange) {
+function countExchanges(str, index, exchange) {
 	var exchanges = 0;
 	var len = exchange[0].length;
-	for (var i = 0; i < custom_exchange.length; i++)
-		if (exchange[0] === custom_exchange[i][0].substring(0, len))
+	for (var i = 0; i < customExchange.length; i++)
+		if (exchange[0] === customExchange[i][0].substring(0, len))
 			exchanges++;
 	return exchanges;
 }
 
-function possible_future_exchange_char(str, index, exchange) {
+function possibleFutureExchangeCharacter(str, index, exchange) {
 	var len = exchange[0].length;
-	for (var i = 0; i < custom_exchange.length; i++)
-		if (custom_exchange[i][0].length > len && exchange[0] === custom_exchange[i][0].substring(0, len))
-			return custom_exchange[i][0].charAt(len);
+	for (var i = 0; i < customExchange.length; i++)
+		if (customExchange[i][0].length > len && exchange[0] === customExchange[i][0].substring(0, len))
+			return customExchange[i][0].charAt(len);
 	return false;
 }
 
-function get_change(str, index) {
-	for (var i = 0; i < custom_exchange.length; i++)
-		if (index >= custom_exchange[i][1].length && str.substring(index - custom_exchange[i][1].length, index) === custom_exchange[i][1])
-			return custom_exchange[i];
+function getChange(str, index) {
+	for (var i = 0; i < customExchange.length; i++)
+		if (index >= customExchange[i][1].length && str.substring(index - customExchange[i][1].length, index) === customExchange[i][1])
+			return customExchange[i];
 	return false;
 }
 
@@ -285,64 +285,64 @@ function setCaretPositionDiv(containerEl, pos) {
 chrome.storage.onChanged.addListener(function (changes, namespace) {
 	for (key in changes) {
 		switch (key) {
-			case "dash_enabled":
+			case "dashEnabled":
 				enabled = changes[key].newValue;
 				break;
-			case "custom_exchange_info":
-				var custom_exchange_info = changes[key].newValue;
-				for (var i = 1; i <= custom_exchange_info.num_files; i++) {
-					var k = "custom_exchange" + (i === 1 ? '':i);
+			case "customExchangeInfo":
+				var customExchangeInfo = changes[key].newValue;
+				for (var i = 1; i <= customExchangeInfo.numFiles; i++) {
+					var k = "customExchange" + (i === 1 ? '':i);
 					var exchange = changes[k];
 					if (exchange)
-						storage_custom_exchanges[k] = exchange.newValue;
+						storageCustomExchanges[k] = exchange.newValue;
 				}
-				concat_custom_exchanges(custom_exchange_info);
+				concatCustomExchanges(customExchangeInfo);
 				break;
 		}
 	}
 });
 
-function concat_custom_exchanges(custom_exchange_info) {
-	custom_exchange = new Array(custom_exchange_info.num_exchanges);
+function concatCustomExchanges(customExchangeInfo) {
+	customExchange = new Array(customExchangeInfo.numExchanges);
 	var count = 0;
-	for (var a = 1; a <= custom_exchange_info.num_files; a++) {
-		var exchanges = storage_custom_exchanges["custom_exchange" + (a === 1 ? '':a)];
+	for (var a = 1; a <= customExchangeInfo.numFiles; a++) {
+		var exchanges = storageCustomExchanges["customExchange" + (a === 1 ? '':a)];
 		for (var i = 0; i < exchanges.length; i++, count++)
-			custom_exchange[count] = exchanges[i];
+			customExchange[count] = exchanges[i];
 	}
 }
 
-function load_and_concat_custom_exchanges(custom_exchange_info, index, count) {
-	var key = "custom_exchange" + (index === 1 ? '':index);
+function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
+	var key = "customExchange" + (index === 1 ? '':index);
 	chrome.storage.sync.get(key, function (result) {
 		var exchanges = result[key];
-		storage_custom_exchanges[key] = exchanges;
+		storageCustomExchanges[key] = exchanges;
 		for (var i = 0; i < exchanges.length; i++, count++)
-			custom_exchange[count] = exchanges[i];
-		if (index < custom_exchange_info.num_files)
-			load_and_concat_custom_exchanges(custom_exchange_info, index + 1, count);
-		else if (custom_exchange_info.sorted !== true)
-			sort_custom_exchange();
+			customExchange[count] = exchanges[i];
+		if (index < customExchangeInfo.numFiles)
+			loadAndConcatCustomExchanges(customExchangeInfo, index + 1, count);
+		else if (customExchangeInfo.sorted !== true)
+			sortCustomExchange();
 	});
 }
 
-function load_data_from_storage() {
-	chrome.storage.sync.get("initial_mark", function (result) {
-		if (result.initial_mark) {
-			chrome.storage.sync.get("dash_enabled", function (result) {
-				enabled = result.dash_enabled;
+function loadDataFromStorage() {
+	chrome.storage.sync.get("initialMark", function (result) {
+		if (result.initialMark) {
+			chrome.storage.sync.get("dashEnabled", function (result) {
+				enabled = result.dashEnabled;
 			});
-			chrome.storage.sync.get("custom_exchange_info", function (result) {
-				var custom_exchange_info = result["custom_exchange_info"];
-				custom_exchange = new Array(custom_exchange_info.num_exchanges);
-				load_and_concat_custom_exchanges(custom_exchange_info, 1, 0);
+			chrome.storage.sync.get("customExchangeInfo", function (result) {
+				var customExchangeInfo = result["customExchangeInfo"];
+				customExchange = new Array(customExchangeInfo.numExchanges);
+				loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
 			});
 		}
 		else {
-			chrome.storage.sync.set({"dash_enabled": true});
-			chrome.storage.sync.set({"custom_exchange": custom_exchange});
-			chrome.storage.sync.set({"initial_mark": true});
+			chrome.storage.sync.set({"dashEnabled": true});
+			chrome.storage.sync.set({"customExchange": customExchange});
+			chrome.storage.sync.set({"initialMark": true});
 		}
-		chrome.storage.sync.set({"curr_version": chrome.runtime.getManifest().version});
+		chrome.storage.sync.set({"currentVersion": chrome.runtime.getManifest().version});
 	});
 }

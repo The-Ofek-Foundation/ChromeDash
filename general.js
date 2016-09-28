@@ -1,34 +1,34 @@
 
-function find_exchange_index(alias) {
-	var min_index = 0, max_index = custom_exchange.length, mid_index, comparison;
-	while (min_index < max_index) {
-		mid_index = (max_index + min_index) / 2 | 0;
-		comparison = alias.localeCompare(custom_exchange[mid_index][0]);
+function findExchangeIndex(alias) {
+	var minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
+	while (minIndex < maxIndex) {
+		midIndex = (maxIndex + minIndex) / 2 | 0;
+		comparison = alias.localeCompare(customExchange[midIndex][0]);
 		if (comparison < 0)
-			max_index = mid_index;
+			maxIndex = midIndex;
 		else if (comparison > 0)
-			min_index = mid_index + 1;
-		else return [true, mid_index];
+			minIndex = midIndex + 1;
+		else return [true, midIndex];
 	}
-	return [false, comparison > 0 ? mid_index + 1:mid_index];
+	return [false, comparison > 0 ? midIndex + 1:midIndex];
 }
 
-function get_exchange_index(alias) {
-	var min_index = 0, max_index = custom_exchange.length, mid_index, comparison;
-	while (min_index < max_index) {
-		mid_index = (max_index + min_index) / 2 | 0;
-		comparison = alias.localeCompare(custom_exchange[mid_index][0]);
+function getExchangeIndex(alias) {
+	var minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
+	while (minIndex < maxIndex) {
+		midIndex = (maxIndex + minIndex) / 2 | 0;
+		comparison = alias.localeCompare(customExchange[midIndex][0]);
 		if (comparison < 0)
-			max_index = mid_index;
+			maxIndex = midIndex;
 		else if (comparison > 0)
-			min_index = mid_index + 1;
-		else return mid_index;
+			minIndex = midIndex + 1;
+		else return midIndex;
 	}
 	return -1;
 }
 
-function sort_custom_exchange() {
-	mergesort(custom_exchange, function (exchange1, exchange2) {
+function sortCustomExchange() {
+	mergesort(customExchange, function (exchange1, exchange2) {
 		return exchange1[0].localeCompare(exchange2[0]);
 	});
 }
@@ -50,23 +50,23 @@ var mergesort = function (array, /* optional */ cmp) {
 		};
 	}
 
-	function merge (begin, begin_right, end) {
+	function merge (begin, beginRight, end) {
 		'use asm';
 		// Create a copy of the left and right halves.
-		var left_size = begin_right - begin, right_size = end - begin_right;
-		var left = array.slice(begin, begin_right), right = array.slice(begin_right, end);
+		var leftSize = beginRight - begin, rightSize = end - beginRight;
+		var left = array.slice(begin, beginRight), right = array.slice(beginRight, end);
 		// Merge left and right halves back into original array.
 		var i = begin, j = 0, k = 0;
-		while (j < left_size && k < right_size)
+		while (j < leftSize && k < rightSize)
 			if (cmp(left[j], right[k]) <= 0)
 				array[i++] = left[j++];
 			else
 				array[i++] = right[k++];
 		// At this point, at least one of the two halves is finished.
 		// Copy any remaining elements from left array back to original array.
-		while (j < left_size) array[i++] = left[j++];
+		while (j < leftSize) array[i++] = left[j++];
 		// Copy any remaining elements from right array back to original array.
-		while (k < right_size) array[i++] = right[k++];
+		while (k < rightSize) array[i++] = right[k++];
 		return;
 	}
 
@@ -78,19 +78,19 @@ var mergesort = function (array, /* optional */ cmp) {
 			// arrays with a maximum size somewhere between 4 and 16.
 			// This decreases the depth of the recursion for an array size where
 			// O(n^2) sorting algorithms are acceptable.
-			var sub_array = array.slice(begin, end);
-			sub_array.sort(cmp);
+			var subArray = array.slice(begin, end);
+			subArray.sort(cmp);
 			// Copy the sorted array back to the original array.
 			for (var i = 0; i < size; ++i)
-				array[begin + i] = sub_array[i];
+				array[begin + i] = subArray[i];
 			return;
 		}
 
-		var begin_right = begin + (size >> 1);
+		var beginRight = begin + (size >> 1);
 
-		msort(begin, begin_right);
-		msort(begin_right, end);
-		merge(begin, begin_right, end);
+		msort(begin, beginRight);
+		msort(beginRight, end);
+		merge(begin, beginRight, end);
 	}
 
 	msort(0, array.length);

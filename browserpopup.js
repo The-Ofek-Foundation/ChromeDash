@@ -1,18 +1,18 @@
-var input_dash = document.querySelector("input[name=enable-dash]");
-var exchange_table_body = document.getElementById("exchange-table-body");
-var exchange_header = document.getElementById("exchange-header");
-var character_pack_select = document.getElementById("character-pack-select");
-var custom_exchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
-var header_widths = new Array(3);
-var add_alias_form = document.getElementById("add-alias");
-var remove_alias_form = document.getElementById("remove-alias");
-var add_character_pack = document.getElementById("add-character-pack");
-var remove_character_pack = document.getElementById("remove-character-pack");
-var remove_all_aliases = document.getElementById("remove-all-aliases");
-var add_basic_dashes = document.getElementById("add-basic-dashes");
-var current_num_files, save_count;
+var inputDash = document.querySelector("input[name=enable-dash]");
+var exchangeTableBody = document.getElementById("exchange-table-body");
+var exchangeHeader = document.getElementById("exchange-header");
+var characterPackSelect = document.getElementById("character-pack-select");
+var customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
+var headerWidths = new Array(3);
+var addAliasForm = document.getElementById("add-alias");
+var removeAliasForm = document.getElementById("remove-alias");
+var addCharacterPack = document.getElementById("add-character-pack");
+var removeCharacterPack = document.getElementById("remove-character-pack");
+var removeAllAliases = document.getElementById("remove-all-aliases");
+var addBasicDashes = document.getElementById("add-basic-dashes");
+var currentNumFiles, saveCount;
 
-const character_packs = {
+const characterPacks = {
 	"EMPTY": [],
 	"LOWERCASE_GREEK": [["\\alpha", 945], ["\\beta", 946], ["\\gamma", 947], ["\\delta", 948], ["\\epsilon", 949], ["\\zeta", 950], ["\\eta", 951], ["\\theta", 952], ["\\iota", 953], ["\\kappa", 954], ["\\lambda", 955], ["\\mu", 956], ["\\nu", 957], ["\\xi", 958], ["\\omicron", 959], ["\\pi", 960], ["\\rho", 961], ["\\sigmaf", 962], ["\\sigma", 963], ["\\tau", 964], ["\\upsilon", 965], ["\\phi", 966], ["\\chi", 967], ["\\psi", 968], ["\\omega", 969]],
 	"UPPERCASE_GREEK": [["\\Alpha", 913], ["\\Beta", 914], ["\\Gamma", 915], ["\\Delta", 916], ["\\Epsilon", 917], ["\\Zeta", 918], ["\\Eta", 919], ["\\Theta", 920], ["\\Iota", 921], ["\\Kappa", 922], ["\\Lambda", 923], ["\\Mu", 924], ["\\Nu", 925], ["\\Xi", 926], ["\\Omicron", 927], ["\\Pi", 928], ["\\Rho", 929], ["\\Sigma", 931], ["\\Tau", 932], ["\\Upsilon", 933], ["\\Phi", 934], ["\\Chi", 935], ["\\Psi", 936], ["\\Omega", 937]],
@@ -25,232 +25,231 @@ const character_packs = {
 // 	console.log(result);
 // });
 
-function set_character_packs() {
+function setCharacterPacks() {
 	var i, pack;
-	for (var key in character_packs) {
-		pack = character_packs[key];
+	for (var key in characterPacks) {
+		pack = characterPacks[key];
 		for (i = 0; i < pack.length; i++)
 			if (typeof pack[i][1] === "number")
 				pack[i][1] = String.fromCharCode(pack[i][1]);
 	}
 }
-set_character_packs();
+setCharacterPacks();
 
-function add_character_pack_options() {
+function addCharacterPackOptions() {
 	var option, pack;
-	for (pack in character_packs) {
+	for (pack in characterPacks) {
 		if (pack === "EMPTY")
 			continue;
 		option = document.createElement("option");
 		option.textContent = pack.replace(/_/g, ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		option.value = pack;
-		character_pack_select.add(option);
+		characterPackSelect.add(option);
 	}
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
 	alignAddRemoveAliasForms();
-	input_dash.addEventListener('change', function (event) {
-		chrome.storage.sync.set({"dash_enabled": input_dash.checked});
+	inputDash.addEventListener('change', function (event) {
+		chrome.storage.sync.set({"dashEnabled": inputDash.checked});
 	});
-	add_alias_form.addEventListener('submit', function (event) {
-		add_alias(add_alias_form.children[0].value, add_alias_form.children[1].value, true);
-		add_alias_form.children[0].value = "";
-		add_alias_form.children[1].value = "";
+	addAliasForm.addEventListener('submit', function (event) {
+		addAlias(addAliasForm.children[0].value, addAliasForm.children[1].value, true);
+		addAliasForm.children[0].value = "";
+		addAliasForm.children[1].value = "";
 		if (event.preventDefault)
 			event.preventDefault();
 		event.returnValue = false;
 	});
-	remove_alias_form.addEventListener('submit', function (event) {
-		remove_alias(remove_alias_form.children[0].value);
-		remove_alias_form.children[0].value = "";
+	removeAliasForm.addEventListener('submit', function (event) {
+		removeAlias(removeAliasForm.children[0].value);
+		removeAliasForm.children[0].value = "";
 		if (event.preventDefault)
 			event.preventDefault();
 		event.returnValue = false;
 	});
-	add_character_pack.addEventListener('click', function (event) {
-		add_pack(character_packs[character_pack_select.options[character_pack_select.selectedIndex].value]);
+	addCharacterPack.addEventListener('click', function (event) {
+		addPack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
-	remove_character_pack.addEventListener('click', function (event) {
-		remove_pack(character_packs[character_pack_select.options[character_pack_select.selectedIndex].value]);
+	removeCharacterPack.addEventListener('click', function (event) {
+		removePack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
-	remove_all_aliases.addEventListener('click', function (event) {
+	removeAllAliases.addEventListener('click', function (event) {
 		removeAllAliases();
 	});
-	add_basic_dashes.addEventListener('click', function (event) {
-		add_pack([["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]]);
+	addBasicDashes.addEventListener('click', function (event) {
+		addPack([["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]]);
 	});
-	exchange_table_body.addEventListener('click', function (event) {
+	exchangeTableBody.addEventListener('click', function (event) {
 		if (event.target.dataset.alias)
-			remove_alias(event.target.dataset.alias, true);
+			removeAlias(event.target.dataset.alias, true);
 	});
-	add_character_pack_options();
+	addCharacterPackOptions();
 	for (var i = 1; i <= 3; i++)
-		header_widths[i-1] = exchange_header.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
+		headerWidths[i-1] = exchangeHeader.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
 });
 
 function alignAddRemoveAliasForms() {
-	var widthtop = add_alias_form.children[2].getBoundingClientRect().right - add_alias_form.children[0].getBoundingClientRect().left
-	var widthbot = remove_alias_form.children[1].getBoundingClientRect().right - remove_alias_form.children[0].getBoundingClientRect().left
-	remove_alias_form.children[1].style.width = trueElemWidth(remove_alias_form.children[1]) + widthtop - widthbot + "px";
+	var widthtop = addAliasForm.children[2].getBoundingClientRect().right - addAliasForm.children[0].getBoundingClientRect().left
+	var widthbot = removeAliasForm.children[1].getBoundingClientRect().right - removeAliasForm.children[0].getBoundingClientRect().left
+	removeAliasForm.children[1].style.width = trueElemWidth(removeAliasForm.children[1]) + widthtop - widthbot + "px";
 }
 
-chrome.storage.sync.get("dash_enabled", function (result) {
-	var dash_enabled = result.dash_enabled;
-	if (dash_enabled !== false)
-		input_dash.checked = true;
-	else input_dash.checked = false;
+chrome.storage.sync.get("dashEnabled", function (result) {
+	var dashEnabled = result.dashEnabled;
+	if (dashEnabled !== false)
+		inputDash.checked = true;
+	else inputDash.checked = false;
 });
 
-chrome.storage.sync.get("custom_exchange_info", function (result) {
-	var custom_exchange_info = result["custom_exchange_info"];
-	if (custom_exchange_info !== undefined) {
-		custom_exchange = new Array(custom_exchange_info.num_exchanges);
-		current_num_files = custom_exchange_info.num_files;
-		save_count = custom_exchange_info.save_count;
-		if (save_count === undefined)
-			save_count = 0;
-		load_and_concat_custom_exchanges(custom_exchange_info, 1, 0);
+chrome.storage.sync.get("customExchangeInfo", function (result) {
+	var customExchangeInfo = result["customExchangeInfo"];
+	if (customExchangeInfo !== undefined) {
+		customExchange = new Array(customExchangeInfo.numExchanges);
+		currentNumFiles = customExchangeInfo.numFiles;
+		saveCount = customExchangeInfo.saveCount;
+		if (saveCount === undefined)
+			saveCount = 0;
+		loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
 	}
 	else {
-		save_custom_exchange();
-		new_table_html();
+		saveCustomExchange();
+		newTableHtml();
 	}
 });
 
-function add_alias(from, to, save) {
+function addAlias(from, to, save) {
 	if (typeof from !== "string" || typeof to !== "string") {
 		console.error("Not String", from, to);
 		return;
 	}
-	var index = remove_alias(from, false);
-	custom_exchange.splice(index, 0, [from, to]);
-	exchange_table_body.insertBefore(generate_new_row([from, to]), exchange_table_body.children[index]);
+	var index = removeAlias(from, false);
+	customExchange.splice(index, 0, [from, to]);
+	exchangeTableBody.insertBefore(generateNewRow([from, to]), exchangeTableBody.children[index]);
 	if (save)
-		save_custom_exchange();
+		saveCustomExchange();
 }
 
-function remove_alias(alias, save) {
-	var index = find_exchange_index(alias);
+function removeAlias(alias, save) {
+	var index = findExchangeIndex(alias);
 	if (index[0] === true) {
-		custom_exchange.splice(index[1], 1);
-		exchange_table_body.removeChild(exchange_table_body.childNodes[index[1]]);
+		customExchange.splice(index[1], 1);
+		exchangeTableBody.removeChild(exchangeTableBody.childNodes[index[1]]);
 		if (save)
-			save_custom_exchange();
+			saveCustomExchange();
 	}
 	return index[1];
 }
 
 function removeAllAliases() {
-	custom_exchange = [];
-	new_table_html();
-	save_custom_exchange();
+	customExchange = [];
+	newTableHtml();
+	saveCustomExchange();
 }
 
-function add_pack(pack) {
+function addPack(pack) {
 	for (var i = 0; i < pack.length; i++)
-		add_alias(pack[i][0], pack[i][1], false);
-	save_custom_exchange();
+		addAlias(pack[i][0], pack[i][1], false);
+	saveCustomExchange();
 }
 
-function remove_pack(pack) {
+function removePack(pack) {
 	for (var i = 0; i < pack.length; i++)
-		remove_alias(pack[i][0], false);
-	save_custom_exchange();
+		removeAlias(pack[i][0], false);
+	saveCustomExchange();
 }
 
-function new_table_html() {
-	var table_body = exchange_table_body;
-	while (table_body.firstChild)
-		table_body.removeChild(table_body.firstChild);
+function newTableHtml() {
+	var tableBody = exchangeTableBody;
+	while (tableBody.firstChild)
+		tableBody.removeChild(tableBody.firstChild);
 
-	for (var i = 0; i < custom_exchange.length; i++)
-		table_body.appendChild(generate_new_row(custom_exchange[i]));
+	for (var i = 0; i < customExchange.length; i++)
+		tableBody.appendChild(generateNewRow(customExchange[i]));
 }
 
-function generate_new_row(alias) {
+function generateNewRow(alias) {
 	var row = document.createElement("TR");
 	var exchange = document.createElement("TD");
 	exchange.innerHTML = alias[0];
-	exchange.style.width = header_widths[0];
+	exchange.style.width = headerWidths[0];
 	row.appendChild(exchange);
 
 	var change = document.createElement("TD");
 	change.innerHTML = alias[1];
-	change.style.width = header_widths[1];
+	change.style.width = headerWidths[1];
 	row.appendChild(change);
 
-	var button_td = document.createElement("TD");
+	var buttonTd = document.createElement("TD");
 	var button = document.createElement("BUTTON");
 	button.innerHTML = "X";
 	button.dataset.alias = alias[0];
-	button_td.appendChild(button);
-	row.appendChild(button_td);
+	buttonTd.appendChild(button);
+	row.appendChild(buttonTd);
 	return row;
 }
 
-function save_custom_exchange() {
-	var ce_json = JSON.stringify(custom_exchange);
-	var ce_size = byteCount(ce_json);
-	var num_splits = 1;
+function saveCustomExchange() {
+	var customExchangesJson = JSON.stringify(customExchange);
+	var customExchangesByteCount = byteCount(customExchangesJson);
+	var numSplits = 1;
 	var set = {};
-	var file_size_cutoff = 7500;
-	if (ce_size > 100000) {
+	var fileSizeCutoff = 7500;
+	if (customExchangesByteCount > 100000) {
 		alert("Too many aliases!");
 		return;
 	}
-	else if (ce_size > file_size_cutoff) {
-		num_splits = ce_size / file_size_cutoff + 1 | 0;
-		var split_start = 0, split_end;
-		for (var i = 1; i <= num_splits; i++) {
-			split_end = get_split_end(split_start, file_size_cutoff);
-			set["custom_exchange" + (i === 1 ? '':i)] = custom_exchange.slice(split_start, split_end);
-			split_start = split_end;
-		}
+	else if (customExchangesByteCount > fileSizeCutoff) {
+		numSplits = customExchangesByteCount / fileSizeCutoff + 1 | 0;
+		var splitStart = 0, splitEnd;
+		for (var i = 1; i <= numSplits; i++) {
+			splitEnd = getSplitEnd(splitStart, fileSizeCutoff);
+			set["customExchange" + (i === 1 ? '':i)] = customExchange.slice(splitStart, splitEnd);
+			splitStart = splitEnd; }
 	}
-	else	set["custom_exchange"] = custom_exchange;
-	save_count++;
-	set["custom_exchange_info"] = {
-		"num_exchanges": custom_exchange.length,
-		"num_files": num_splits,
-		"byte_count": ce_size,
-		"save_count": save_count, // to trigger change event
+	else	set["customExchange"] = customExchange;
+	saveCount++;
+	set["customExchangeInfo"] = {
+		"numExchanges": customExchange.length,
+		"numFiles": numSplits,
+		"byteCount": customExchangesByteCount,
+		"saveCount": saveCount, // to trigger change event
 		"sorted": true,
 	};
 	chrome.storage.sync.set(set);
-	if (num_splits < current_num_files) {
-		var remove = new Array(current_num_files - num_splits);
-		for (var i = num_splits + 1, count = 0; i <= current_num_files; i++, count++)
-			remove[count] = "custom_exchange" + (i === 1 ? '':i);
+	if (numSplits < currentNumFiles) {
+		var remove = new Array(currentNumFiles - numSplits);
+		for (var i = numSplits + 1, count = 0; i <= currentNumFiles; i++, count++)
+			remove[count] = "customExchange" + (i === 1 ? '':i);
 		chrome.storage.sync.remove(remove);
 	}
-	current_num_files = num_splits;
+	currentNumFiles = numSplits;
 }
 
-function get_split_end(start, size) {
-	for (; start < custom_exchange.length && size > 0; start++)
-		size -= byteCount(custom_exchange[start][0] + custom_exchange[start][1]) + 8;
+function getSplitEnd(start, size) {
+	for (; start < customExchange.length && size > 0; start++)
+		size -= byteCount(customExchange[start][0] + customExchange[start][1]) + 8;
 	return size <= 0 ? (start-1):start;
 }
 
-function load_and_concat_custom_exchanges(custom_exchange_info, index, count) {
-	var key = "custom_exchange" + (index === 1 ? '':index);
+function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
+	var key = "customExchange" + (index === 1 ? '':index);
 	chrome.storage.sync.get(key, function (result) {
 		if (result[key] === undefined || result[key].length === 0) {
-			custom_exchange = custom_exchange.slice(0, count);
-			new_table_html();
+			customExchange = customExchange.slice(0, count);
+			newTableHtml();
 			return;
 		}
 		var exchanges = result[key];
 		for (var i = 0; i < exchanges.length; i++, count++)
-			custom_exchange[count] = exchanges[i];
+			customExchange[count] = exchanges[i];
 
-		if (index < custom_exchange_info.num_files)
-			load_and_concat_custom_exchanges(custom_exchange_info, index + 1, count);
+		if (index < customExchangeInfo.numFiles)
+			loadAndConcatCustomExchanges(customExchangeInfo, index + 1, count);
 		else {
-			if (custom_exchange_info.sorted !== true)
-				sort_custom_exchange();
-			new_table_html();
+			if (customExchangeInfo.sorted !== true)
+				sortCustomExchange();
+			newTableHtml();
 		}
 	});
 }
