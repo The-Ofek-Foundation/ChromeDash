@@ -100,11 +100,11 @@ function alignAddRemoveAliasForms() {
 }
 
 chrome.storage.sync.get("dashEnabled", function (result) {
-	inputDash.checked = results.dashEnabled === true;
+	inputDash.checked = result.dashEnabled === undefined ? true:result.dashEnabled;
 });
 
 chrome.storage.sync.get("enablePasswords", function (result) {
-	inputPasswords.checked = result.enablePasswords === true;
+	inputPasswords.checked = result.enablePasswords === undefined ? false:result.enablePasswords;
 });
 
 chrome.storage.sync.get("customExchangeInfo", function (result) {
