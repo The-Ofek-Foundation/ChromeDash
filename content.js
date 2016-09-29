@@ -1,4 +1,4 @@
-const badDivHostnames = ["www.facebook.com", "www.messenger.com"];
+const facebookDivHostnames = ["www.facebook.com", "www.messenger.com"];
 
 var customExchange = [["--", "–"], ["---", "—"]];
 var storageCustomExchanges = {};
@@ -9,13 +9,14 @@ var previous;
 var active;
 var pastExchangeExists = false;
 var futureCharacter = false;
+var nextEnd = -1;
 
-var badEditableDivs = false;
+var facebookEditableDivs = false;
 
 function checkHostname() {
-	for (var i = 0; i < badDivHostnames.length; i++)
-		if (window.location.hostname === badDivHostnames[i]) {
-			badEditableDivs = true;
+	for (var i = 0; i < facebookDivHostnames.length; i++)
+		if (window.location.hostname === facebookDivHostnames[i]) {
+			facebookEditableDivs = true;
 			break;
 		}
 }
@@ -55,11 +56,20 @@ document.onkeypress = function(evt) {
 	previous = current;
 }
 
+document.onkeyup = function (evt) {
+	if (nextEnd === 0)
+		setCaretPosition(active, getActiveText().length);
+	if (nextEnd >= 0)
+		nextEnd--;
+}
+
 function swap(current, currentIndex, exchangeLength, exchange) {
 	current = current.substring(0, currentIndex - exchangeLength) + exchange[1] + current.substring(currentIndex);
 	setActiveText(current);
 	setCaretPosition(active, currentIndex + exchange[1].length - exchangeLength);
 	pastExchangeExists = false;
+	if (facebookEditableDivs && active.value === undefined)
+		nextEnd = 1;
 	return current;
 }
 
@@ -74,8 +84,8 @@ document.onkeydown = function(evt) {
 		var currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		// console.log(badEditableDivs, active.value);
-		if (badEditableDivs && active.value === undefined) {
+		// console.log(facebookEditableDivs, active.value);
+		if (facebookEditableDivs && active.value === undefined) {
 			current = previous;
 			currentIndex++;
 		}
@@ -201,27 +211,27 @@ function doGetCaretPosition (oField) {
 
 function getCaretPosition(editableDiv) {
   var caretPos = 0,
-    sel, range;
+	sel, range;
   if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.rangeCount) {
-      range = sel.getRangeAt(0);
-      if (range.commonAncestorContainer.parentNode == editableDiv) {
-        caretPos = range.endOffset;
-        if (range.endOffset !== range.startOffset)
-        	return false;
-      }
-    }
+	sel = window.getSelection();
+	if (sel.rangeCount) {
+	  range = sel.getRangeAt(0);
+	  if (range.commonAncestorContainer.parentNode == editableDiv) {
+		caretPos = range.endOffset;
+		if (range.endOffset !== range.startOffset)
+			return false;
+	  }
+	}
   } else if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    if (range.parentElement() == editableDiv) {
-      var tempEl = document.createElement("span");
-      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-      var tempRange = range.duplicate();
-      tempRange.moveToElementText(tempEl);
-      tempRange.setEndPoint("EndToEnd", range);
-      caretPos = tempRange.text.length;
-    }
+	range = document.selection.createRange();
+	if (range.parentElement() == editableDiv) {
+	  var tempEl = document.createElement("span");
+	  editableDiv.insertBefore(tempEl, editableDiv.firstChild);
+	  var tempRange = range.duplicate();
+	  tempRange.moveToElementText(tempEl);
+	  tempRange.setEndPoint("EndToEnd", range);
+	  caretPos = tempRange.text.length;
+	}
   }
   if (caretPos < 0)
   	caretPos = 0;
@@ -231,13 +241,10 @@ function getCaretPosition(editableDiv) {
 function setCaretPosition(ctrl, pos)	{
 	if (ctrl.value === undefined) {
 		setCaretPositionDiv(ctrl, pos);
-		return;
-	}
-	if (ctrl.setSelectionRange)	{
+	} else if (ctrl.setSelectionRange)	{
 		ctrl.focus();
 		ctrl.setSelectionRange(pos,pos);
-	}
-	else if (ctrl.createTextRange) {
+	}	else if (ctrl.createTextRange) {
 		var range = ctrl.createTextRange();
 		range.collapse(true);
 		range.moveEnd('character', pos);
@@ -250,42 +257,42 @@ function setCaretPositionDiv(containerEl, pos) {
 	start = end = pos;
 
 	if (window.getSelection && document.createRange) {
-        var charIndex = 0, range = document.createRange();
-        range.setStart(containerEl, 0);
-        range.collapse(true);
-        var nodeStack = [containerEl], node, foundStart = false, stop = false;
+		var charIndex = 0, range = document.createRange();
+		range.setStart(containerEl, 0);
+		range.collapse(true);
+		var nodeStack = [containerEl], node, foundStart = false, stop = false;
 
-        while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeType == 3) {
-                var nextCharIndex = charIndex + node.length;
-                if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-                    range.setStart(node, start - charIndex);
-                    foundStart = true;
-                }
-                if (foundStart && end >= charIndex && end <= nextCharIndex) {
-                    range.setEnd(node, end - charIndex);
-                    stop = true;
-                }
-                charIndex = nextCharIndex;
-            } else {
-                var i = node.childNodes.length;
-                while (i--) {
-                    nodeStack.push(node.childNodes[i]);
-                }
-            }
-        }
+		while (!stop && (node = nodeStack.pop())) {
+			if (node.nodeType == 3) {
+				var nextCharIndex = charIndex + node.length;
+				if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+					range.setStart(node, start - charIndex);
+					foundStart = true;
+				}
+				if (foundStart && end >= charIndex && end <= nextCharIndex) {
+					range.setEnd(node, end - charIndex);
+					stop = true;
+				}
+				charIndex = nextCharIndex;
+			} else {
+				var i = node.childNodes.length;
+				while (i--) {
+					nodeStack.push(node.childNodes[i]);
+				}
+			}
+		}
 
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
 	} else if (document.selection) {
-        var textRange = document.body.createTextRange();
-        textRange.moveToElementText(containerEl);
-        textRange.collapse(true);
-        textRange.moveEnd("character", end);
-        textRange.moveStart("character", start);
-        textRange.select();
-    }
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText(containerEl);
+		textRange.collapse(true);
+		textRange.moveEnd("character", end);
+		textRange.moveStart("character", start);
+		textRange.select();
+	}
 }
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
