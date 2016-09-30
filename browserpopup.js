@@ -116,8 +116,7 @@ chrome.storage.sync.get("customExchangeInfo", function (result) {
 		if (saveCount === undefined)
 			saveCount = 0;
 		loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
-	}
-	else {
+	}	else {
 		autoSaveCustomExchange();
 		newTableHtml();
 	}

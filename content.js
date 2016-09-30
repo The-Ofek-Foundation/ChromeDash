@@ -44,8 +44,7 @@ document.onkeypress = function(evt) {
 				current = swap(current, currentIndex, exchange[0].length - 1, exchange);
 				evt.preventDefault();
 			}
-		}
-		else if (pastExchangeExists && !justUndone && charString !== futureCharacter)
+		}	else if (pastExchangeExists && !justUndone && charString !== futureCharacter)
 			current = swap(current, currentIndex, pastExchangeExists[0].length, pastExchangeExists);
 		else	{
 			pastExchangeExists = false;
@@ -203,8 +202,7 @@ function doGetCaretPosition (oField) {
 		var oSel = document.selection.createRange();
 		oSel.moveStart('character', -oField.value.length);
 		iCaretPos = oSel.text.length;
-	}
-	else if (oField.selectionStart || oField.selectionStart == '0')
+	}	else if (oField.selectionStart || oField.selectionStart == '0')
 		iCaretPos = oField.selectionStart;
 	return iCaretPos;
 }
@@ -357,8 +355,7 @@ function loadDataFromStorage() {
 				customExchange = new Array(customExchangeInfo.numExchanges);
 				loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
 			});
-		}
-		else {
+		}	else {
 			chrome.storage.sync.set({"dashEnabled": true});
 			chrome.storage.sync.set({"enablePasswords": false});
 			saveCustomExchange(customExchange, 0, 0);

@@ -7,16 +7,14 @@ function saveCustomExchange(customExchange, saveCount, currentNumFiles) {
 	if (customExchangesByteCount > 100000) {
 		alert("Too many aliases!");
 		return;
-	}
-	else if (customExchangesByteCount > fileSizeCutoff) {
+	}	else if (customExchangesByteCount > fileSizeCutoff) {
 		numSplits = customExchangesByteCount / fileSizeCutoff + 1 | 0;
 		var splitStart = 0, splitEnd;
 		for (var i = 1; i <= numSplits; i++) {
 			splitEnd = getSplitEnd(splitStart, fileSizeCutoff);
 			set["customExchange" + (i === 1 ? '':i)] = customExchange.slice(splitStart, splitEnd);
 			splitStart = splitEnd; }
-	}
-	else	set["customExchange"] = customExchange;
+	}	else	set["customExchange"] = customExchange;
 	saveCount++;
 	set["customExchangeInfo"] = {
 		"numExchanges": customExchange.length,
