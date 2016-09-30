@@ -1,17 +1,17 @@
-var inputDash = document.querySelector("input[name=enable-dash]");
-var inputPasswords = document.querySelector("input[name=enable-passwords]");
-var exchangeTableBody = document.getElementById("exchange-table-body");
-var exchangeHeader = document.getElementById("exchange-header");
-var characterPackSelect = document.getElementById("character-pack-select");
-var customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
-var headerWidths = new Array(3);
-var addAliasForm = document.getElementById("add-alias");
-var removeAliasForm = document.getElementById("remove-alias");
-var addCharacterPack = document.getElementById("add-character-pack");
-var removeCharacterPack = document.getElementById("remove-character-pack");
-var removeAllAliases = document.getElementById("remove-all-aliases");
-var addBasicDashes = document.getElementById("add-basic-dashes");
-var currentNumFiles, saveCount;
+let inputDash = document.querySelector("input[name=enable-dash]");
+let inputPasswords = document.querySelector("input[name=enable-passwords]");
+let exchangeTableBody = document.getElementById("exchange-table-body");
+let exchangeHeader = document.getElementById("exchange-header");
+let characterPackSelect = document.getElementById("character-pack-select");
+let customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
+let headerWidths = new Array(3);
+let addAliasForm = document.getElementById("add-alias");
+let removeAliasForm = document.getElementById("remove-alias");
+let addCharacterPack = document.getElementById("add-character-pack");
+let removeCharacterPack = document.getElementById("remove-character-pack");
+let removeAllAliasesOption = document.getElementById("remove-all-aliases");
+let addBasicDashes = document.getElementById("add-basic-dashes");
+let currentNumFiles, saveCount;
 
 const characterPacks = {
 	"EMPTY": [],
@@ -27,8 +27,8 @@ const characterPacks = {
 // });
 
 function setCharacterPacks() {
-	var i, pack;
-	for (var key in characterPacks) {
+	let i, pack;
+	for (let key in characterPacks) {
 		pack = characterPacks[key];
 		for (i = 0; i < pack.length; i++)
 			if (typeof pack[i][1] === "number")
@@ -38,7 +38,7 @@ function setCharacterPacks() {
 setCharacterPacks();
 
 function addCharacterPackOptions() {
-	var option, pack;
+	let option, pack;
 	for (pack in characterPacks) {
 		if (pack === "EMPTY")
 			continue;
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	removeCharacterPack.addEventListener('click', function (event) {
 		removePack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
-	removeAllAliases.addEventListener('click', function (event) {
+	removeAllAliasesOption.addEventListener('click', function (event) {
 		removeAllAliases();
 	});
 	addBasicDashes.addEventListener('click', function (event) {
@@ -89,13 +89,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 			removeAlias(event.target.dataset.alias, true);
 	});
 	addCharacterPackOptions();
-	for (var i = 1; i <= 3; i++)
+	for (let i = 1; i <= 3; i++)
 		headerWidths[i-1] = exchangeHeader.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
 });
 
 function alignAddRemoveAliasForms() {
-	var widthtop = addAliasForm.children[2].getBoundingClientRect().right - addAliasForm.children[0].getBoundingClientRect().left
-	var widthbot = removeAliasForm.children[1].getBoundingClientRect().right - removeAliasForm.children[0].getBoundingClientRect().left
+	let widthtop = addAliasForm.children[2].getBoundingClientRect().right - addAliasForm.children[0].getBoundingClientRect().left
+	let widthbot = removeAliasForm.children[1].getBoundingClientRect().right - removeAliasForm.children[0].getBoundingClientRect().left
 	removeAliasForm.children[1].style.width = trueElemWidth(removeAliasForm.children[1]) + widthtop - widthbot + "px";
 }
 
@@ -108,7 +108,7 @@ chrome.storage.sync.get("enablePasswords", function (result) {
 });
 
 chrome.storage.sync.get("customExchangeInfo", function (result) {
-	var customExchangeInfo = result["customExchangeInfo"];
+	let customExchangeInfo = result["customExchangeInfo"];
 	if (customExchangeInfo !== undefined) {
 		customExchange = new Array(customExchangeInfo.numExchanges);
 		currentNumFiles = customExchangeInfo.numFiles;
@@ -127,7 +127,7 @@ function addAlias(from, to, save) {
 		console.error("Not String", from, to);
 		return;
 	}
-	var index = removeAlias(from, false);
+	let index = removeAlias(from, false);
 	customExchange.splice(index, 0, [from, to]);
 	exchangeTableBody.insertBefore(generateNewRow([from, to]), exchangeTableBody.children[index]);
 	if (save)
@@ -135,7 +135,7 @@ function addAlias(from, to, save) {
 }
 
 function removeAlias(alias, save) {
-	var index = findExchangeIndex(alias);
+	let index = findExchangeIndex(alias);
 	if (index[0] === true) {
 		customExchange.splice(index[1], 1);
 		exchangeTableBody.removeChild(exchangeTableBody.childNodes[index[1]]);
@@ -152,40 +152,40 @@ function removeAllAliases() {
 }
 
 function addPack(pack) {
-	for (var i = 0; i < pack.length; i++)
+	for (let i = 0; i < pack.length; i++)
 		addAlias(pack[i][0], pack[i][1], false);
 	autoSaveCustomExchange();
 }
 
 function removePack(pack) {
-	for (var i = 0; i < pack.length; i++)
+	for (let i = 0; i < pack.length; i++)
 		removeAlias(pack[i][0], false);
 	autoSaveCustomExchange();
 }
 
 function newTableHtml() {
-	var tableBody = exchangeTableBody;
+	let tableBody = exchangeTableBody;
 	while (tableBody.firstChild)
 		tableBody.removeChild(tableBody.firstChild);
 
-	for (var i = 0; i < customExchange.length; i++)
+	for (let i = 0; i < customExchange.length; i++)
 		tableBody.appendChild(generateNewRow(customExchange[i]));
 }
 
 function generateNewRow(alias) {
-	var row = document.createElement("TR");
-	var exchange = document.createElement("TD");
+	let row = document.createElement("TR");
+	let exchange = document.createElement("TD");
 	exchange.innerHTML = alias[0];
 	exchange.style.width = headerWidths[0];
 	row.appendChild(exchange);
 
-	var change = document.createElement("TD");
+	let change = document.createElement("TD");
 	change.innerHTML = alias[1];
 	change.style.width = headerWidths[1];
 	row.appendChild(change);
 
-	var buttonTd = document.createElement("TD");
-	var button = document.createElement("BUTTON");
+	let buttonTd = document.createElement("TD");
+	let button = document.createElement("BUTTON");
 	button.innerHTML = "X";
 	button.dataset.alias = alias[0];
 	buttonTd.appendChild(button);
@@ -200,15 +200,15 @@ function autoSaveCustomExchange() {
 }
 
 function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
-	var key = "customExchange" + (index === 1 ? '':index);
+	let key = "customExchange" + (index === 1 ? '':index);
 	chrome.storage.sync.get(key, function (result) {
 		if (result[key] === undefined || result[key].length === 0) {
 			customExchange = customExchange.slice(0, count);
 			newTableHtml();
 			return;
 		}
-		var exchanges = result[key];
-		for (var i = 0; i < exchanges.length; i++, count++)
+		let exchanges = result[key];
+		for (let i = 0; i < exchanges.length; i++, count++)
 			customExchange[count] = exchanges[i];
 
 		if (index < customExchangeInfo.numFiles)

@@ -1,16 +1,16 @@
 function saveCustomExchange(customExchange, saveCount, currentNumFiles) {
-	var customExchangesJson = JSON.stringify(customExchange);
-	var customExchangesByteCount = byteCount(customExchangesJson);
-	var numSplits = 1;
-	var set = {};
-	var fileSizeCutoff = 7500;
+	let customExchangesJson = JSON.stringify(customExchange);
+	let customExchangesByteCount = byteCount(customExchangesJson);
+	let numSplits = 1;
+	let set = {};
+	let fileSizeCutoff = 7500;
 	if (customExchangesByteCount > 100000) {
 		alert("Too many aliases!");
 		return;
 	}	else if (customExchangesByteCount > fileSizeCutoff) {
 		numSplits = customExchangesByteCount / fileSizeCutoff + 1 | 0;
-		var splitStart = 0, splitEnd;
-		for (var i = 1; i <= numSplits; i++) {
+		let splitStart = 0, splitEnd;
+		for (let i = 1; i <= numSplits; i++) {
 			splitEnd = getSplitEnd(splitStart, fileSizeCutoff);
 			set["customExchange" + (i === 1 ? '':i)] = customExchange.slice(splitStart, splitEnd);
 			splitStart = splitEnd; }
@@ -25,8 +25,8 @@ function saveCustomExchange(customExchange, saveCount, currentNumFiles) {
 	};
 	chrome.storage.sync.set(set);
 	if (numSplits < currentNumFiles) {
-		var remove = new Array(currentNumFiles - numSplits);
-		for (var i = numSplits + 1, count = 0; i <= currentNumFiles; i++, count++)
+		let remove = new Array(currentNumFiles - numSplits);
+		for (let i = numSplits + 1, count = 0; i <= currentNumFiles; i++, count++)
 			remove[count] = "customExchange" + (i === 1 ? '':i);
 		chrome.storage.sync.remove(remove);
 	}
@@ -45,7 +45,7 @@ function byteCount(s) {
 }
 
 function findExchangeIndex(alias) {
-	var minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
+	let minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
 	while (minIndex < maxIndex) {
 		midIndex = (maxIndex + minIndex) / 2 | 0;
 		comparison = alias.localeCompare(customExchange[midIndex][0]);
@@ -59,7 +59,7 @@ function findExchangeIndex(alias) {
 }
 
 function getExchangeIndex(alias) {
-	var minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
+	let minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
 	while (minIndex < maxIndex) {
 		midIndex = (maxIndex + minIndex) / 2 | 0;
 		comparison = alias.localeCompare(customExchange[midIndex][0]);
@@ -78,7 +78,7 @@ function sortCustomExchange() {
 	});
 }
 
-var mergesort = function (array, /* optional */ cmp) {
+let mergesort = function (array, /* optional */ cmp) {
 	/*
 		Merge sort.
 		On average, two orders of magnitude faster than Array.prototype.sort() for
@@ -98,10 +98,10 @@ var mergesort = function (array, /* optional */ cmp) {
 	function merge (begin, beginRight, end) {
 		'use asm';
 		// Create a copy of the left and right halves.
-		var leftSize = beginRight - begin, rightSize = end - beginRight;
-		var left = array.slice(begin, beginRight), right = array.slice(beginRight, end);
+		let leftSize = beginRight - begin, rightSize = end - beginRight;
+		let left = array.slice(begin, beginRight), right = array.slice(beginRight, end);
 		// Merge left and right halves back into original array.
-		var i = begin, j = 0, k = 0;
+		let i = begin, j = 0, k = 0;
 		while (j < leftSize && k < rightSize)
 			if (cmp(left[j], right[k]) <= 0)
 				array[i++] = left[j++];
@@ -117,21 +117,21 @@ var mergesort = function (array, /* optional */ cmp) {
 
 	function msort (begin, end) {
 		'use asm';
-		var size = end - begin;
+		let size = end - begin;
 		if (size <= 8) {
 			// By experimentation, the sort is fastest when using native sort for
 			// arrays with a maximum size somewhere between 4 and 16.
 			// This decreases the depth of the recursion for an array size where
 			// O(n^2) sorting algorithms are acceptable.
-			var subArray = array.slice(begin, end);
+			let subArray = array.slice(begin, end);
 			subArray.sort(cmp);
 			// Copy the sorted array back to the original array.
-			for (var i = 0; i < size; ++i)
+			for (let i = 0; i < size; ++i)
 				array[begin + i] = subArray[i];
 			return;
 		}
 
-		var beginRight = begin + (size >> 1);
+		let beginRight = begin + (size >> 1);
 
 		msort(begin, beginRight);
 		msort(beginRight, end);
@@ -144,11 +144,11 @@ var mergesort = function (array, /* optional */ cmp) {
 };
 
 function trueElemWidth(elem) {
-	var rect = elem.getBoundingClientRect();
+	let rect = elem.getBoundingClientRect();
 	return rect.right - rect.left
 }
 
 function trueElemHeight(elem) {
-	var rect = elem.getBoundingClientRect();
+	let rect = elem.getBoundingClientRect();
 	return rect.bottom - rect.top
 }

@@ -1,21 +1,20 @@
 const facebookDivHostnames = ["www.facebook.com", "www.messenger.com"];
 
-var customExchange = [["--", "–"], ["---", "—"]];
-var storageCustomExchanges = {};
-var justUndone = false;
-var enabled;
-var enablePasswords;
-var previous;
-var active;
-var pastExchangeExists = false;
-var futureCharacter = false;
-var nextEnd = -2;
-var indexRetention = -1;
-
-var facebookEditableDivs = false;
+let customExchange = [["--", "–"], ["---", "—"]];
+let storageCustomExchanges = {};
+let justUndone = false;
+let enabled;
+let enablePasswords;
+let previous;
+let active;
+let pastExchangeExists = false;
+let futureCharacter = false;
+let nextEnd = -2;
+let indexRetention = -1;
+let facebookEditableDivs = false;
 
 function checkHostname() {
-	for (var i = 0; i < facebookDivHostnames.length; i++)
+	for (let i = 0; i < facebookDivHostnames.length; i++)
 		if (window.location.hostname === facebookDivHostnames[i]) {
 			facebookEditableDivs = true;
 			break;
@@ -27,17 +26,17 @@ loadDataFromStorage();
 
 document.onkeypress = function(evt) {
 	evt = evt || window.event;
-	var charCode = evt.which || evt.keyCode;
-	var charString = String.fromCharCode(charCode);
+	let charCode = evt.which || evt.keyCode;
+	let charString = String.fromCharCode(charCode);
 	active = getActive(evt.target);
 	if (!active)
 		return;
 	indexRetention++;
-	var current = getActiveText();
-	var currentIndex = doGetCaretPosition(active);
+	let current = getActiveText();
+	let currentIndex = doGetCaretPosition(active);
 	if (enabled && current && currentIndex !== false) {
-		var nextString = current.substring(0, currentIndex) + charString + current.substring(currentIndex);
-		var exchange = getExchange(nextString, currentIndex + 1);
+		let nextString = current.substring(0, currentIndex) + charString + current.substring(currentIndex);
+		let exchange = getExchange(nextString, currentIndex + 1);
 		if (exchange) {
 			futureCharacter = possibleFutureExchangeCharacter(nextString, currentIndex + 1, exchange);
 			if (futureCharacter !== false)
@@ -62,7 +61,6 @@ document.onkeyup = function (evt) {
 	if (nextEnd === 0 || nextEnd === -1) {
 		if (indexRetention > getActiveText().length)
 			indexRetention = getActiveText().length;
-		console.log(indexRetention, getActiveText().length);
 		setCaretPosition(active, indexRetention);
 	}
 	if (nextEnd >= -1)
@@ -82,7 +80,7 @@ function swap(current, currentIndex, exchangeLength, exchange) {
 
 document.onkeydown = function(evt) {
 	evt = evt || window.event;
-	var charCode = evt.keyCode || evt.which;
+	let charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = getActive(evt.target);
 		// console.l");
@@ -90,7 +88,7 @@ document.onkeydown = function(evt) {
 			return;
 		indexRetention--;
 		current = getActiveText();
-		var currentIndex = doGetCaretPosition(active);
+		let currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
 		if (facebookEditableDivs && !isString(active.value)) {
@@ -98,11 +96,11 @@ document.onkeydown = function(evt) {
 			currentIndex++;
 		}
 		// console.log(current, currentIndex, active, active.innerHTML);
-		// var current = active.value === undefined ? previous:getActiveText();
+		// let current = active.value === undefined ? previous:getActiveText();
 		// if (current === undefined)
 		// if (active.value === undefined)
 		// 	currentIndex++;
-		var exchange = getChange(current, currentIndex);
+		let exchange = getChange(current, currentIndex);
 		if (exchange) {
 			current = current.substring(0, currentIndex - exchange[1].length) + exchange[0] + current.substring(currentIndex);
 			setActiveText(current);
@@ -170,8 +168,8 @@ function isString(value) {
 }
 
 function getDifferingIndex(s1, s2) {
-	var shorterLength = s1.length < s2.length ? s1.length:s2.length;
-	var i;
+	let shorterLength = s1.length < s2.length ? s1.length:s2.length;
+	let i;
 	for (i = 0; i < shorterLength; i++)
 		if (s1.charAt(i) !== s2.charAt(i))
 			return i;
@@ -181,7 +179,7 @@ function getDifferingIndex(s1, s2) {
 }
 
 function countDashes(str, index) {
-	var count = 0;
+	let count = 0;
 	for (index -= 1; index >= 0; index--, count++)
 		if (str.charAt(index) !== '-')
 			return count;
@@ -189,8 +187,8 @@ function countDashes(str, index) {
 }
 
 function getExchange(str, index) {
-	var longest = false;
-	for (var i = 0; i < customExchange.length; i++)
+	let longest = false;
+	for (let i = 0; i < customExchange.length; i++)
 		if (!longest || customExchange[i][0].length > longest[0].length)
 			if (index >= customExchange[i][0].length && str.substring(index - customExchange[i][0].length, index) === customExchange[i][0])
 				longest = customExchange[i];
@@ -198,24 +196,24 @@ function getExchange(str, index) {
 }
 
 function countExchanges(str, index, exchange) {
-	var exchanges = 0;
-	var len = exchange[0].length;
-	for (var i = 0; i < customExchange.length; i++)
+	let exchanges = 0;
+	let len = exchange[0].length;
+	for (let i = 0; i < customExchange.length; i++)
 		if (exchange[0] === customExchange[i][0].substring(0, len))
 			exchanges++;
 	return exchanges;
 }
 
 function possibleFutureExchangeCharacter(str, index, exchange) {
-	var len = exchange[0].length;
-	for (var i = 0; i < customExchange.length; i++)
+	let len = exchange[0].length;
+	for (let i = 0; i < customExchange.length; i++)
 		if (customExchange[i][0].length > len && exchange[0] === customExchange[i][0].substring(0, len))
 			return customExchange[i][0].charAt(len);
 	return false;
 }
 
 function getChange(str, index) {
-	for (var i = 0; i < customExchange.length; i++)
+	for (let i = 0; i < customExchange.length; i++)
 		if (index >= customExchange[i][1].length && str.substring(index - customExchange[i][1].length, index) === customExchange[i][1])
 			return customExchange[i];
 	return false;
@@ -232,10 +230,10 @@ function doGetCaretPosition (oField) {
 		return getCaretCharacterOffsetWithin(oField);
 	if (!isString(oField.value))
 		return getCaretPosition(oField);
-	var iCaretPos = 0;
+	let iCaretPos = 0;
 	if (document.selection) {
 		oField.focus();
-		var oSel = document.selection.createRange();
+		let oSel = document.selection.createRange();
 		oSel.moveStart('character', -oField.value.length);
 		iCaretPos = oSel.text.length;
 	}	else if (oField.selectionStart || oField.selectionStart == '0')
@@ -244,7 +242,7 @@ function doGetCaretPosition (oField) {
 }
 
 function getCaretPosition(editableDiv) {
-  var caretPos = 0,
+  let caretPos = 0,
 	sel, range;
   if (window.getSelection) {
 	sel = window.getSelection();
@@ -259,9 +257,9 @@ function getCaretPosition(editableDiv) {
   } else if (document.selection && document.selection.createRange) {
 	range = document.selection.createRange();
 	if (range.parentElement() == editableDiv) {
-	  var tempEl = document.createElement("span");
+	  let tempEl = document.createElement("span");
 	  editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-	  var tempRange = range.duplicate();
+	  let tempRange = range.duplicate();
 	  tempRange.moveToElementText(tempEl);
 	  tempRange.setEndPoint("EndToEnd", range);
 	  caretPos = tempRange.text.length;
@@ -276,22 +274,22 @@ function getCaretPosition(editableDiv) {
  * http://stackoverflow.com/questions/4811822/get-a-ranges-start-and-end-offsets-relative-to-its-parent-container/4812022#4812022
  */
 function getCaretCharacterOffsetWithin(element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
+    let caretOffset = 0;
+    let doc = element.ownerDocument || element.document;
+    let win = doc.defaultView || doc.parentWindow;
+    let sel;
     if (typeof win.getSelection != "undefined") {
         sel = win.getSelection();
         if (sel.rangeCount > 0) {
-            var range = win.getSelection().getRangeAt(0);
-            var preCaretRange = range.cloneRange();
+            let range = win.getSelection().getRangeAt(0);
+            let preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.endContainer, range.endOffset);
             caretOffset = preCaretRange.toString().length;
         }
     } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
+        let textRange = sel.createRange();
+        let preCaretTextRange = doc.body.createTextRange();
         preCaretTextRange.moveToElementText(element);
         preCaretTextRange.setEndPoint("EndToEnd", textRange);
         caretOffset = preCaretTextRange.text.length;
@@ -306,7 +304,7 @@ function setCaretPosition(ctrl, pos)	{
 		ctrl.focus();
 		ctrl.setSelectionRange(pos,pos);
 	}	else if (ctrl.createTextRange) {
-		var range = ctrl.createTextRange();
+		let range = ctrl.createTextRange();
 		range.collapse(true);
 		range.moveEnd('character', pos);
 		range.moveStart('character', pos);
@@ -318,14 +316,14 @@ function setCaretPositionDiv(containerEl, pos) {
 	start = end = pos;
 
 	if (window.getSelection && document.createRange) {
-		var charIndex = 0, range = document.createRange();
+		let charIndex = 0, range = document.createRange();
 		range.setStart(containerEl, 0);
 		range.collapse(true);
-		var nodeStack = [containerEl], node, foundStart = false, stop = false;
+		let nodeStack = [containerEl], node, foundStart = false, stop = false;
 
 		while (!stop && (node = nodeStack.pop())) {
 			if (node.nodeType == 3) {
-				var nextCharIndex = charIndex + node.length;
+				let nextCharIndex = charIndex + node.length;
 				if (!foundStart && start >= charIndex && start <= nextCharIndex) {
 					range.setStart(node, start - charIndex);
 					foundStart = true;
@@ -336,18 +334,18 @@ function setCaretPositionDiv(containerEl, pos) {
 				}
 				charIndex = nextCharIndex;
 			} else {
-				var i = node.childNodes.length;
+				let i = node.childNodes.length;
 				while (i--) {
 					nodeStack.push(node.childNodes[i]);
 				}
 			}
 		}
 
-		var sel = window.getSelection();
+		let sel = window.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range);
 	} else if (document.selection) {
-		var textRange = document.body.createTextRange();
+		let textRange = document.body.createTextRange();
 		textRange.moveToElementText(containerEl);
 		textRange.collapse(true);
 		textRange.moveEnd("character", end);
@@ -366,10 +364,10 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 				enablePasswords = changes[key].newValue;
 				break;
 			case "customExchangeInfo":
-				var customExchangeInfo = changes[key].newValue;
-				for (var i = 1; i <= customExchangeInfo.numFiles; i++) {
-					var k = "customExchange" + (i === 1 ? '':i);
-					var exchange = changes[k];
+				let customExchangeInfo = changes[key].newValue;
+				for (let i = 1; i <= customExchangeInfo.numFiles; i++) {
+					let k = "customExchange" + (i === 1 ? '':i);
+					let exchange = changes[k];
 					if (exchange)
 						storageCustomExchanges[k] = exchange.newValue;
 				}
@@ -381,20 +379,20 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 
 function concatCustomExchanges(customExchangeInfo) {
 	customExchange = new Array(customExchangeInfo.numExchanges);
-	var count = 0;
-	for (var a = 1; a <= customExchangeInfo.numFiles; a++) {
-		var exchanges = storageCustomExchanges["customExchange" + (a === 1 ? '':a)];
-		for (var i = 0; i < exchanges.length; i++, count++)
+	let count = 0;
+	for (let a = 1; a <= customExchangeInfo.numFiles; a++) {
+		let exchanges = storageCustomExchanges["customExchange" + (a === 1 ? '':a)];
+		for (let i = 0; i < exchanges.length; i++, count++)
 			customExchange[count] = exchanges[i];
 	}
 }
 
 function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
-	var key = "customExchange" + (index === 1 ? '':index);
+	let key = "customExchange" + (index === 1 ? '':index);
 	chrome.storage.sync.get(key, function (result) {
-		var exchanges = result[key];
+		let exchanges = result[key];
 		storageCustomExchanges[key] = exchanges;
-		for (var i = 0; i < exchanges.length; i++, count++)
+		for (let i = 0; i < exchanges.length; i++, count++)
 			customExchange[count] = exchanges[i];
 		if (index < customExchangeInfo.numFiles)
 			loadAndConcatCustomExchanges(customExchangeInfo, index + 1, count);
@@ -404,7 +402,7 @@ function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
 }
 
 function loadDataFromStorage() {
-	var details = ['initialMark', 'dashEnabled', 'enablePasswords', 'customExchangeInfo'];
+	let details = ['initialMark', 'dashEnabled', 'enablePasswords', 'customExchangeInfo'];
 	chrome.storage.sync.get("initialMark", function (result) {
 		if (result.initialMark) {
 			chrome.storage.sync.get("dashEnabled", function (result) {
@@ -414,7 +412,7 @@ function loadDataFromStorage() {
 				enablePasswords = result.enablePasswords;
 			});
 			chrome.storage.sync.get("customExchangeInfo", function (result) {
-				var customExchangeInfo = result["customExchangeInfo"];
+				let customExchangeInfo = result["customExchangeInfo"];
 				customExchange = new Array(customExchangeInfo.numExchanges);
 				loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
 			});
