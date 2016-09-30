@@ -9,7 +9,8 @@ var previous;
 var active;
 var pastExchangeExists = false;
 var futureCharacter = false;
-var nextEnd = -1;
+var nextEnd = -2;
+var indexRetention = -1;
 
 var facebookEditableDivs = false;
 
@@ -31,6 +32,7 @@ document.onkeypress = function(evt) {
 	active = getActive(evt.target);
 	if (!active)
 		return;
+	indexRetention++;
 	var current = getActiveText();
 	var currentIndex = doGetCaretPosition(active);
 	if (enabled && current && currentIndex !== false) {
@@ -56,18 +58,24 @@ document.onkeypress = function(evt) {
 }
 
 document.onkeyup = function (evt) {
-	if (nextEnd === 0)
-		setCaretPosition(active, getActiveText().length);
-	if (nextEnd >= 0)
+	/* Handles some annoying facebook bug */
+	if (nextEnd === 0 || nextEnd === -1) {
+		if (indexRetention > getActiveText().length)
+			indexRetention = getActiveText().length;
+		console.log(indexRetention, getActiveText().length);
+		setCaretPosition(active, indexRetention);
+	}
+	if (nextEnd >= -1)
 		nextEnd--;
 }
 
 function swap(current, currentIndex, exchangeLength, exchange) {
 	current = current.substring(0, currentIndex - exchangeLength) + exchange[1] + current.substring(currentIndex);
 	setActiveText(current);
-	setCaretPosition(active, currentIndex + exchange[1].length - exchangeLength);
+	indexRetention = currentIndex + exchange[1].length - exchangeLength;
+	setCaretPosition(active, indexRetention);
 	pastExchangeExists = false;
-	if (facebookEditableDivs && active.value === undefined)
+	if (facebookEditableDivs && !isString(active.value))
 		nextEnd = 1;
 	return current;
 }
@@ -77,14 +85,15 @@ document.onkeydown = function(evt) {
 	var charCode = evt.keyCode || evt.which;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = getActive(evt.target);
+		// console.l");
 		if (!active)
 			return;
+		indexRetention--;
 		current = getActiveText();
 		var currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		// console.log(facebookEditableDivs, active.value);
-		if (facebookEditableDivs && active.value === undefined) {
+		if (facebookEditableDivs && !isString(active.value)) {
 			current = previous;
 			currentIndex++;
 		}
@@ -97,9 +106,11 @@ document.onkeydown = function(evt) {
 		if (exchange) {
 			current = current.substring(0, currentIndex - exchange[1].length) + exchange[0] + current.substring(currentIndex);
 			setActiveText(current);
-			setCaretPosition(active, currentIndex - exchange[1].length + exchange[0].length);
+			indexRetention = currentIndex - exchange[1].length + exchange[0].length;
+			setCaretPosition(active, indexRetention);
 			justUndone = true;
 			previous = current;
+			nextEnd = 1;
 			return false;
 		}
 		// if (active.value === undefined) {
@@ -110,29 +121,52 @@ document.onkeydown = function(evt) {
 		// 	return false;
 		// }
 		previous = getActiveText();
-	}
+	}	else if (charCode === 37)
+		indexRetention--;
+	else if (charCode === 39)
+		indexRetention++;
 	// previous = getActiveText();
 }
 
 function getActiveText() {
-	if (active.value !== undefined)
+	if (isString(active.value))
 		return active.value;
+	else if (isString(active.nodeValue))
+		return active.nodeValue;
 	else return active.innerHTML;
 }
 
 function setActiveText(text) {
-	if (active.value !== undefined)
+	if (isString(active.value))
 		active.value = text;
+	else if (isString(active.nodeValue))
+		active.nodeValue = text;
 	else active.firstChild.nodeValue = text;
 }
 
 function getActive(elem) {
-	if (elem.value === undefined)
-		while (elem.children.length > 0)
-			elem = elem.children[0];
+	while (!isString(elem.value) && !isString(elem.nodeValue) && elem.childNodes.length > 0)
+		elem = chooseChild(elem);
 	if (!enablePasswords && elem.type && elem.type === 'password')
 		return false;
 	return elem;
+}
+
+function chooseChild(elem) {
+	let children = elem.childNodes;
+	for (let i = 0; i < children.length; i++)
+		if (isString(children[i].value))
+			return children[i];
+
+	for (let i = 0; i < children.length; i++)
+		if (isString(children[i].nodeValue))
+			return children[i];
+
+	return children[0];
+}
+
+function isString(value) {
+	return typeof value === 'string';
 }
 
 function getDifferingIndex(s1, s2) {
@@ -192,10 +226,12 @@ function getChange(str, index) {
 ** Return value range is 0-oField.value.length.
 */
 function doGetCaretPosition (oField) {
-	if (oField.value === undefined)
-		return getCaretPosition(oField);
-	if (oField.selectionStart !== oField.selectionEnd)
+	if (oField.selectionStart && oField.selectionStart !== oField.selectionEnd)
 		return false;
+	if (isString(oField.nodeValue))
+		return getCaretCharacterOffsetWithin(oField);
+	if (!isString(oField.value))
+		return getCaretPosition(oField);
 	var iCaretPos = 0;
 	if (document.selection) {
 		oField.focus();
@@ -236,8 +272,32 @@ function getCaretPosition(editableDiv) {
   return caretPos;
 }
 
+function getCaretCharacterOffsetWithin(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = win.getSelection().getRangeAt(0);
+            var preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            caretOffset = preCaretRange.toString().length;
+        }
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;
+    }
+    return caretOffset;
+}
+
 function setCaretPosition(ctrl, pos)	{
-	if (ctrl.value === undefined) {
+	if (!isString(ctrl.value)) {
 		setCaretPositionDiv(ctrl, pos);
 	} else if (ctrl.setSelectionRange)	{
 		ctrl.focus();
