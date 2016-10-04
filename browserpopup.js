@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 		event.returnValue = false;
 	});
 	removeAliasForm.addEventListener('submit', function (event) {
-		removeAlias(removeAliasForm.children[0].value);
+		removeAlias(removeAliasForm.children[0].value, true);
 		removeAliasForm.children[0].value = "";
 		if (event.preventDefault)
 			event.preventDefault();
