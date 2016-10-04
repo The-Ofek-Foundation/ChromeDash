@@ -9,15 +9,15 @@
 		<span class="command-description">Add/Edit your own custom aliases:</span>
 		<br /><br />
 		<form id="add-alias">
-			<input type="text" name="alias-from" placeholder="CD" required>
-			<input type="text" name="alias-to" placeholder="ChromeDash" required>
+			<input type="text" name="alias-from" title="what to alias from (alias key)" placeholder="CD" required>
+			<input type="text" name="alias-to" title="what to alias to (what to replace the key with)" placeholder="ChromeDash" required>
 			<input type="submit" value="Add" title="adds/updates matching alias">
 		</form>
 		<br />
 		<span class="command-description">Remove an alias:</span>
 		<br /><br />
 		<form id="remove-alias">
-			<input type="text" name="alias-remove" placeholder="CD" required></input>
+			<input type="text" name="alias-remove" title="the key of the alias to remove" placeholder="CD" required></input>
 			<input type="submit" value="Remove" title="removes matching alias">
 		</form>
 		<br />
