@@ -224,6 +224,8 @@ function getChange(str, index) {
 ** Return value range is 0-oField.value.length.
 */
 function doGetCaretPosition (oField) {
+	if (oField.tagName === 'INPUT' && oField.type !== 'text')
+		return false;
 	if (oField.selectionStart && oField.selectionStart !== oField.selectionEnd)
 		return false;
 	if (isString(oField.nodeValue))
