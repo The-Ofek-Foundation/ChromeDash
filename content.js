@@ -26,6 +26,8 @@ loadDataFromStorage();
 
 document.onkeypress = function(evt) {
 	evt = evt || window.event;
+	if (evt.ctrlKey)
+		return;
 	let charCode = evt.which || evt.keyCode;
 	let charString = String.fromCharCode(charCode);
 	active = getActive(evt.target);
@@ -81,6 +83,8 @@ function swap(current, currentIndex, exchangeLength, exchange) {
 document.onkeydown = function(evt) {
 	evt = evt || window.event;
 	let charCode = evt.keyCode || evt.which;
+	if (evt.ctrlKey)
+		return;
 	if (enabled && charCode === 8 || charCode === 46) {
 		active = getActive(evt.target);
 		// console.l");
