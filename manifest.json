@@ -1,10 +1,10 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "ChromeDash",
 	"short_name": "ChromeDash",
 	"version": "2.0.5",
 	"description": "Enter dashes, accents, Greek letters, or alias in general—quickly!",
-	"browser_action": {
+	"action": {
 		"default_icon": "browsericon.png",
 		"default_popup": "browserpopup.html"
 	},
@@ -25,7 +25,10 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": ["general.js", "content.js"]
+			"js": [
+				"general.js",
+				"content.js"
+			]
 		}
 	]
 }
