@@ -1,5 +1,3 @@
-const facebookDivHostnames = ["www.facebook.com", "www.messenger.com"];
-
 let customExchange = [["--", "–"], ["---", "—"]];
 
 let justUndone = false;
@@ -11,26 +9,14 @@ let pastExchangeExists = false;
 let futureCharacter = false;
 let nextEnd = -2;
 let indexRetention = -1;
-let facebookEditableDivs = false;
-
-function checkHostname() {
-	for (let i = 0; i < facebookDivHostnames.length; i++)
-		if (window.location.hostname === facebookDivHostnames[i]) {
-			facebookEditableDivs = true;
-			break;
-		}
-}
-checkHostname();
 
 loadDataFromStorage();
 
 
 document.addEventListener('keypress', (evt) => {
-	evt = evt || window.event;
 	if (evt.ctrlKey)
 		return;
-	let charCode = evt.which || evt.keyCode;
-	let charString = String.fromCharCode(charCode);
+	let charString = evt.key;
 	active = getActive(evt.target);
 	if (!active)
 		return;
@@ -80,18 +66,16 @@ function swap(current, currentIndex, exchangeLength, exchange) {
 	indexRetention = currentIndex + exchange[1].length - exchangeLength;
 	setCaretPosition(active, indexRetention);
 	pastExchangeExists = false;
-	if (facebookEditableDivs && !isString(active.value))
+	if (!isString(active.value))
 		nextEnd = 1;
 	return current;
 }
 
 
 document.addEventListener('keydown', (evt) => {
-	evt = evt || window.event;
-	let charCode = evt.keyCode || evt.which;
 	if (evt.ctrlKey)
 		return;
-	if (enabled && charCode === 8 || charCode === 46) {
+	if (enabled && (evt.key === 'Backspace' || evt.key === 'Delete')) {
 		active = getActive(evt.target);
 		if (!active)
 			return;
@@ -100,7 +84,7 @@ document.addEventListener('keydown', (evt) => {
 		let currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		if (facebookEditableDivs && !isString(active.value)) {
+		if (!isString(active.value)) {
 			current = previous;
 			currentIndex++;
 		}
@@ -117,9 +101,9 @@ document.addEventListener('keydown', (evt) => {
 			return;
 		}
 		previous = getActiveText();
-	} else if (charCode === 37)
+	} else if (evt.key === 'ArrowLeft')
 		indexRetention--;
-	else if (charCode === 39)
+	else if (evt.key === 'ArrowRight')
 		indexRetention++;
 });
 
@@ -141,6 +125,12 @@ function setActiveText(text) {
 }
 
 function getActive(elem) {
+	const selection = window.getSelection();
+	if ((!isString(elem.value) && !isString(elem.nodeValue)) &&
+		selection && selection.rangeCount > 0 && selection.focusNode && selection.focusNode.nodeType === 3) {
+		return selection.focusNode;
+	}
+
 	while (!isString(elem.value) && !isString(elem.nodeValue) && elem.childNodes.length > 0)
 		elem = chooseChild(elem);
 	if (!enablePasswords && elem.type && elem.type === 'password')
