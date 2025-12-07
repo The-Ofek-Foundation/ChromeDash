@@ -1,7 +1,7 @@
 const facebookDivHostnames = ["www.facebook.com", "www.messenger.com"];
 
 let customExchange = [["--", "–"], ["---", "—"]];
-let storageCustomExchanges = {};
+
 let justUndone = false;
 let enabled;
 let enablePasswords;
@@ -337,41 +337,13 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 				break;
 			case "customExchangeInfo":
 				let customExchangeInfo = changes[key].newValue;
-				for (let i = 1; i <= customExchangeInfo.numFiles; i++) {
-					let k = "customExchange" + (i === 1 ? '' : i);
-					let exchange = changes[k];
-					if (exchange)
-						storageCustomExchanges[k] = exchange.newValue;
-				}
-				concatCustomExchanges(customExchangeInfo);
+				loadAllExchanges(customExchangeInfo).then((exchanges) => {
+					customExchange = exchanges;
+				});
 				break;
 		}
 	}
 });
-
-function concatCustomExchanges(customExchangeInfo) {
-	customExchange = new Array(customExchangeInfo.numExchanges);
-	let count = 0;
-	for (let a = 1; a <= customExchangeInfo.numFiles; a++) {
-		let exchanges = storageCustomExchanges["customExchange" + (a === 1 ? '' : a)];
-		for (let i = 0; i < exchanges.length; i++, count++)
-			customExchange[count] = exchanges[i];
-	}
-}
-
-function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
-	let key = "customExchange" + (index === 1 ? '' : index);
-	chrome.storage.sync.get(key, (result) => {
-		let exchanges = result[key];
-		storageCustomExchanges[key] = exchanges;
-		for (let i = 0; i < exchanges.length; i++, count++)
-			customExchange[count] = exchanges[i];
-		if (index < customExchangeInfo.numFiles)
-			loadAndConcatCustomExchanges(customExchangeInfo, index + 1, count);
-		else if (customExchangeInfo.sorted !== true)
-			sortCustomExchange();
-	});
-}
 
 function loadDataFromStorage() {
 	let details = ['initialMark', 'dashEnabled', 'enablePasswords', 'customExchangeInfo'];
@@ -383,10 +355,9 @@ function loadDataFromStorage() {
 			chrome.storage.sync.get("enablePasswords", (result) => {
 				enablePasswords = result.enablePasswords;
 			});
-			chrome.storage.sync.get("customExchangeInfo", (result) => {
+			chrome.storage.sync.get("customExchangeInfo", async (result) => {
 				let customExchangeInfo = result["customExchangeInfo"];
-				customExchange = new Array(customExchangeInfo.numExchanges);
-				loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
+				customExchange = await loadAllExchanges(customExchangeInfo);
 			});
 		} else {
 			chrome.storage.sync.set({ "dashEnabled": true });

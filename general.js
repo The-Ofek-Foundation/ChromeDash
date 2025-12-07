@@ -41,10 +41,6 @@ function getSplitEnd(start, size) {
 	return size <= 0 ? (start - 1) : start;
 }
 
-function byteCount(s) {
-	return encodeURI(s).split(/%..|./).length - 1;
-}
-
 function findExchangeIndex(alias) {
 	let minIndex = 0, maxIndex = customExchange.length, midIndex, comparison;
 	while (minIndex < maxIndex) {
@@ -87,4 +83,27 @@ function trueElemWidth(elem) {
 function trueElemHeight(elem) {
 	let rect = elem.getBoundingClientRect();
 	return rect.bottom - rect.top
+}
+
+const byteCount = (s) => new TextEncoder().encode(s).length;
+
+async function loadAllExchanges(customExchangeInfo) {
+	if (!customExchangeInfo) return [];
+
+	const keys = [];
+	for (let i = 1; i <= customExchangeInfo.numFiles; i++) {
+		keys.push("customExchange" + (i === 1 ? '' : i));
+	}
+
+	const result = await chrome.storage.sync.get(keys);
+	let allExchanges = [];
+
+	// Reconstruct in order
+	for (let i = 0; i < keys.length; i++) {
+		if (result[keys[i]]) {
+			allExchanges = allExchanges.concat(result[keys[i]]);
+		}
+	}
+
+	return allExchanges;
 }

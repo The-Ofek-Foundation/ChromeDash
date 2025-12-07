@@ -107,15 +107,17 @@ chrome.storage.sync.get("enablePasswords", (result) => {
 	inputPasswords.checked = result.enablePasswords === undefined ? false : result.enablePasswords;
 });
 
-chrome.storage.sync.get("customExchangeInfo", (result) => {
+chrome.storage.sync.get("customExchangeInfo", async (result) => {
 	let customExchangeInfo = result["customExchangeInfo"];
 	if (customExchangeInfo !== undefined) {
-		customExchange = new Array(customExchangeInfo.numExchanges);
 		currentNumFiles = customExchangeInfo.numFiles;
 		saveCount = customExchangeInfo.saveCount;
 		if (saveCount === undefined)
 			saveCount = 0;
-		loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
+		customExchange = await loadAllExchanges(customExchangeInfo);
+		if (customExchangeInfo.sorted !== true)
+			sortCustomExchange();
+		newTableHtml();
 	} else {
 		autoSaveCustomExchange();
 		newTableHtml();
@@ -175,12 +177,12 @@ function newTableHtml() {
 function generateNewRow(alias) {
 	let row = document.createElement("TR");
 	let exchange = document.createElement("TD");
-	exchange.innerHTML = alias[0];
+	exchange.textContent = alias[0];
 	exchange.style.width = headerWidths[0];
 	row.appendChild(exchange);
 
 	let change = document.createElement("TD");
-	change.innerHTML = alias[1];
+	change.textContent = alias[1];
 	change.style.width = headerWidths[1];
 	row.appendChild(change);
 
@@ -197,26 +199,4 @@ function autoSaveCustomExchange() {
 	let results = saveCustomExchange(customExchange, saveCount, currentNumFiles);
 	saveCount = results[0];
 	currentNumFiles = results[1];
-}
-
-function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
-	let key = "customExchange" + (index === 1 ? '' : index);
-	chrome.storage.sync.get(key, (result) => {
-		if (result[key] === undefined || result[key].length === 0) {
-			customExchange = customExchange.slice(0, count);
-			newTableHtml();
-			return;
-		}
-		let exchanges = result[key];
-		for (let i = 0; i < exchanges.length; i++, count++)
-			customExchange[count] = exchanges[i];
-
-		if (index < customExchangeInfo.numFiles)
-			loadAndConcatCustomExchanges(customExchangeInfo, index + 1, count);
-		else {
-			if (customExchangeInfo.sorted !== true)
-				sortCustomExchange();
-			newTableHtml();
-		}
-	});
 }
