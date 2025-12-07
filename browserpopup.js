@@ -1,16 +1,16 @@
-let inputDash = document.querySelector("input[name=enable-dash]");
-let inputPasswords = document.querySelector("input[name=enable-passwords]");
-let exchangeTableBody = document.getElementById("exchange-table-body");
-let exchangeHeader = document.getElementById("exchange-header");
-let characterPackSelect = document.getElementById("character-pack-select");
+const inputDash = document.querySelector("input[name=enable-dash]");
+const inputPasswords = document.querySelector("input[name=enable-passwords]");
+const exchangeTableBody = document.getElementById("exchange-table-body");
+const exchangeHeader = document.getElementById("exchange-header");
+const characterPackSelect = document.getElementById("character-pack-select");
 let customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
-let headerWidths = new Array(3);
-let addAliasForm = document.getElementById("add-alias");
-let removeAliasForm = document.getElementById("remove-alias");
-let addCharacterPack = document.getElementById("add-character-pack");
-let removeCharacterPack = document.getElementById("remove-character-pack");
-let removeAllAliasesOption = document.getElementById("remove-all-aliases");
-let addBasicDashes = document.getElementById("add-basic-dashes");
+const headerWidths = new Array(3);
+const addAliasForm = document.getElementById("add-alias");
+const removeAliasForm = document.getElementById("remove-alias");
+const addCharacterPack = document.getElementById("add-character-pack");
+const removeCharacterPack = document.getElementById("remove-character-pack");
+const removeAllAliasesOption = document.getElementById("remove-all-aliases");
+const addBasicDashes = document.getElementById("add-basic-dashes");
 let currentNumFiles, saveCount;
 
 const characterPacks = {
@@ -43,21 +43,21 @@ function addCharacterPackOptions() {
 		if (pack === "EMPTY")
 			continue;
 		option = document.createElement("option");
-		option.textContent = pack.replace(/_/g, ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		option.textContent = pack.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 		option.value = pack;
 		characterPackSelect.add(option);
 	}
 }
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", (event) => {
 	alignAddRemoveAliasForms();
-	inputDash.addEventListener('change', function (event) {
-		chrome.storage.sync.set({"dashEnabled": inputDash.checked});
+	inputDash.addEventListener('change', (event) => {
+		chrome.storage.sync.set({ "dashEnabled": inputDash.checked });
 	});
-	inputPasswords.addEventListener('change', function (event) {
-		chrome.storage.sync.set({"enablePasswords": inputPasswords.checked});
+	inputPasswords.addEventListener('change', (event) => {
+		chrome.storage.sync.set({ "enablePasswords": inputPasswords.checked });
 	});
-	addAliasForm.addEventListener('submit', function (event) {
+	addAliasForm.addEventListener('submit', (event) => {
 		addAlias(addAliasForm.children[0].value, addAliasForm.children[1].value, true);
 		addAliasForm.children[0].value = "";
 		addAliasForm.children[1].value = "";
@@ -65,32 +65,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
 			event.preventDefault();
 		event.returnValue = false;
 	});
-	removeAliasForm.addEventListener('submit', function (event) {
+	removeAliasForm.addEventListener('submit', (event) => {
 		removeAlias(removeAliasForm.children[0].value, true);
 		removeAliasForm.children[0].value = "";
 		if (event.preventDefault)
 			event.preventDefault();
 		event.returnValue = false;
 	});
-	addCharacterPack.addEventListener('click', function (event) {
+	addCharacterPack.addEventListener('click', (event) => {
 		addPack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
-	removeCharacterPack.addEventListener('click', function (event) {
+	removeCharacterPack.addEventListener('click', (event) => {
 		removePack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
-	removeAllAliasesOption.addEventListener('click', function (event) {
+	removeAllAliasesOption.addEventListener('click', (event) => {
 		removeAllAliases();
 	});
-	addBasicDashes.addEventListener('click', function (event) {
+	addBasicDashes.addEventListener('click', (event) => {
 		addPack([["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]]);
 	});
-	exchangeTableBody.addEventListener('click', function (event) {
+	exchangeTableBody.addEventListener('click', (event) => {
 		if (event.target.dataset.alias)
 			removeAlias(event.target.dataset.alias, true);
 	});
 	addCharacterPackOptions();
 	for (let i = 1; i <= 3; i++)
-		headerWidths[i-1] = exchangeHeader.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
+		headerWidths[i - 1] = exchangeHeader.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
 });
 
 function alignAddRemoveAliasForms() {
@@ -99,15 +99,15 @@ function alignAddRemoveAliasForms() {
 	removeAliasForm.children[1].style.width = trueElemWidth(removeAliasForm.children[1]) + widthtop - widthbot + "px";
 }
 
-chrome.storage.sync.get("dashEnabled", function (result) {
-	inputDash.checked = result.dashEnabled === undefined ? true:result.dashEnabled;
+chrome.storage.sync.get("dashEnabled", (result) => {
+	inputDash.checked = result.dashEnabled === undefined ? true : result.dashEnabled;
 });
 
-chrome.storage.sync.get("enablePasswords", function (result) {
-	inputPasswords.checked = result.enablePasswords === undefined ? false:result.enablePasswords;
+chrome.storage.sync.get("enablePasswords", (result) => {
+	inputPasswords.checked = result.enablePasswords === undefined ? false : result.enablePasswords;
 });
 
-chrome.storage.sync.get("customExchangeInfo", function (result) {
+chrome.storage.sync.get("customExchangeInfo", (result) => {
 	let customExchangeInfo = result["customExchangeInfo"];
 	if (customExchangeInfo !== undefined) {
 		customExchange = new Array(customExchangeInfo.numExchanges);
@@ -116,7 +116,7 @@ chrome.storage.sync.get("customExchangeInfo", function (result) {
 		if (saveCount === undefined)
 			saveCount = 0;
 		loadAndConcatCustomExchanges(customExchangeInfo, 1, 0);
-	}	else {
+	} else {
 		autoSaveCustomExchange();
 		newTableHtml();
 	}
@@ -200,8 +200,8 @@ function autoSaveCustomExchange() {
 }
 
 function loadAndConcatCustomExchanges(customExchangeInfo, index, count) {
-	let key = "customExchange" + (index === 1 ? '':index);
-	chrome.storage.sync.get(key, function (result) {
+	let key = "customExchange" + (index === 1 ? '' : index);
+	chrome.storage.sync.get(key, (result) => {
 		if (result[key] === undefined || result[key].length === 0) {
 			customExchange = customExchange.slice(0, count);
 			newTableHtml();
