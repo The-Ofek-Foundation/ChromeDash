@@ -113,7 +113,8 @@ document.addEventListener('keydown', (evt) => {
 			justUndone = true;
 			previous = current;
 			nextEnd = 1;
-			return false;
+			evt.preventDefault();
+			return;
 		}
 		previous = getActiveText();
 	} else if (charCode === 37)
