@@ -1,140 +1,292 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --danger-color: #dc3545;
+  --danger-hover: #bd2130;
+  --secondary-color: #6c757d;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #dee2e6;
+  --light-bg: #f8f9fa;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  width: 30em;
-  text-align: center;
-  padding-bottom: 2em;
+  width: 600px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
 }
-.command-description {
-  font-weight: bold;
+
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.footer {
-  position: fixed;
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title-section {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  bottom: 0.75em;
+  align-items: center;
 }
-.footer #enable-passwords-div {
-  text-align: left;
-  margin-left: 2em;
+
+.header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
 }
-#enable-app-div {
-  position: absolute;
-  bottom: 0.5em;
-  right: 0.5em;
+
+/* Sections */
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-#enable-app-div input[type=checkbox] {
-  visibility: hidden;
+
+h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-#add-alias input[type=text] {
-  width: 35%;
+
+/* Form */
+.inline-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-#add-alias input[type=submit] {
-  width: 15%;
+
+.input-text {
+  flex: 1;
+  min-width: 0;
+  /* Allow shrinking below default content size */
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
 }
-#remove-alias input[type=text] {
-  width: 60%;
+
+.input-text:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
-#remove-alias input[type=submit] {
-  width: 25%;
-}
-#exchange-table,
-#exchange-header {
-  width: 85%;
-  text-align: left;
-}
-#exchange-table td,
-#exchange-header td,
-#exchange-table th,
-#exchange-header th {
-  padding: 0.5em 1em;
-  padding-bottom: 0em;
-  display: inline-block;
-  overflow-x: auto;
-}
-#exchange-table tbody,
-#exchange-header tbody {
-  display: block;
-  max-height: 10em;
-  overflow-y: auto;
-  overflow-x: hidden;
-  width: 25.5em;
-  text-align: center;
-}
-#exchange-table tbody tr,
-#exchange-header tbody tr {
-  width: 100%;
-  display: block;
-}
-#exchange-table tbody tr td,
-#exchange-header tbody tr td {
-  text-align: left;
-}
-#exchange-header {
-  display: block;
-  height: 2em;
-}
-.left-align {
-  text-align: left;
-}
-/* SLIDE THREE */
-.slideThree {
-  width: 80px;
-  height: 26px;
-  background: #333;
-  margin-left: 0.5em;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  position: relative;
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
-  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
-}
-.slideThree:after {
-  content: 'OFF';
-  font: 12px/26px Arial, sans-serif;
-  color: #CD2626;
-  position: absolute;
-  right: 10px;
-  z-index: 0;
-  font-weight: bold;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
-}
-.slideThree:before {
-  content: 'ON';
-  font: 12px/26px Arial, sans-serif;
-  color: #00bf00;
-  position: absolute;
-  left: 10px;
-  z-index: 0;
+
+.arrow {
+  color: var(--secondary-color);
   font-weight: bold;
 }
-.slideThree label {
-  display: block;
-  width: 34px;
-  height: 20px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  -webkit-transition: all .4s ease;
-  -moz-transition: all .4s ease;
-  -o-transition: all .4s ease;
-  -ms-transition: all .4s ease;
-  transition: all .4s ease;
+
+/* Buttons */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  z-index: 1;
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-  background: #fcfff4;
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead', GradientType=0);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
-.slideThree input[type=checkbox]:checked + label {
-  left: 43px;
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: #e2e6ea;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-hover);
+}
+
+.btn-small {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* Actions Section */
+.actions-section {
+  gap: 12px;
+}
+
+.pack-selector {
+  display: flex;
+  gap: 8px;
+}
+
+.select-input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.quick-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Alias List & Search */
+.search-bar {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  /* Important for padding */
+}
+
+.table-wrapper {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--light-bg);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--secondary-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.action-col {
+  width: 40px;
+  text-align: center;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+  font-weight: bold;
+  padding: 4px;
+}
+
+.delete-btn:hover {
+  color: var(--danger-color);
+}
+
+/* Footer */
+.footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Toggle Switch (Slide Three adaptation) */
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.toggle-switch label:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked+label {
+  background-color: var(--primary-color);
+}
+
+.toggle-switch input:focus+label {
+  box-shadow: 0 0 1px var(--primary-color);
+}
+
+.toggle-switch input:checked+label:before {
+  transform: translateX(36px);
 }

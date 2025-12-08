@@ -1,16 +1,15 @@
 const inputDash = document.querySelector("input[name=enable-dash]");
 const inputPasswords = document.querySelector("input[name=enable-passwords]");
 const exchangeTableBody = document.getElementById("exchange-table-body");
-const exchangeHeader = document.getElementById("exchange-header");
 const characterPackSelect = document.getElementById("character-pack-select");
 let customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
-const headerWidths = new Array(3);
 const addAliasForm = document.getElementById("add-alias");
-const removeAliasForm = document.getElementById("remove-alias");
 const addCharacterPack = document.getElementById("add-character-pack");
 const removeCharacterPack = document.getElementById("remove-character-pack");
 const removeAllAliasesOption = document.getElementById("remove-all-aliases");
 const addBasicDashes = document.getElementById("add-basic-dashes");
+const searchInput = document.getElementById("alias-search");
+
 let currentNumFiles, saveCount;
 
 const characterPacks = {
@@ -50,7 +49,7 @@ function addCharacterPackOptions() {
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
-	alignAddRemoveAliasForms();
+	// alignAddRemoveAliasForms(); // Removed as UI has changed
 	inputDash.addEventListener('change', (event) => {
 		chrome.storage.sync.set({ "dashEnabled": inputDash.checked });
 	});
@@ -58,20 +57,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		chrome.storage.sync.set({ "enablePasswords": inputPasswords.checked });
 	});
 	addAliasForm.addEventListener('submit', (event) => {
-		addAlias(addAliasForm.children[0].value, addAliasForm.children[1].value, true);
-		addAliasForm.children[0].value = "";
-		addAliasForm.children[1].value = "";
+		// Use named inputs directly
+		const aliasFrom = addAliasForm.querySelector("input[name='alias-from']");
+		const aliasTo = addAliasForm.querySelector("input[name='alias-to']");
+		addAlias(aliasFrom.value, aliasTo.value, true);
+		aliasFrom.value = "";
+		aliasTo.value = "";
 		if (event.preventDefault)
 			event.preventDefault();
 		event.returnValue = false;
 	});
-	removeAliasForm.addEventListener('submit', (event) => {
-		removeAlias(removeAliasForm.children[0].value, true);
-		removeAliasForm.children[0].value = "";
-		if (event.preventDefault)
-			event.preventDefault();
-		event.returnValue = false;
-	});
+	// Remove alias form listener removed as form is deleted
+
 	addCharacterPack.addEventListener('click', (event) => {
 		addPack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
@@ -88,16 +85,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		if (event.target.dataset.alias)
 			removeAlias(event.target.dataset.alias, true);
 	});
-	addCharacterPackOptions();
-	for (let i = 1; i <= 3; i++)
-		headerWidths[i - 1] = exchangeHeader.querySelector("th:nth-child(" + i + ")").offsetWidth + "px";
-});
 
-function alignAddRemoveAliasForms() {
-	let widthtop = addAliasForm.children[2].getBoundingClientRect().right - addAliasForm.children[0].getBoundingClientRect().left
-	let widthbot = removeAliasForm.children[1].getBoundingClientRect().right - removeAliasForm.children[0].getBoundingClientRect().left
-	removeAliasForm.children[1].style.width = trueElemWidth(removeAliasForm.children[1]) + widthtop - widthbot + "px";
-}
+	// Add search listener
+	searchInput.addEventListener('keyup', (event) => {
+		filterAliases(event.target.value);
+	});
+
+	addCharacterPackOptions();
+	// Dynamic header width calc removed
+});
 
 chrome.storage.sync.get("dashEnabled", (result) => {
 	inputDash.checked = result.dashEnabled === undefined ? true : result.dashEnabled;
@@ -131,7 +127,17 @@ function addAlias(from, to, save) {
 	}
 	let index = removeAlias(from, false);
 	customExchange.splice(index, 0, [from, to]);
-	exchangeTableBody.insertBefore(generateNewRow([from, to]), exchangeTableBody.children[index]);
+	// Insert respecting sort order, but for now simple refresh is safest or insert at specific index
+	// Re-rendering whole table is easier to keep consistent with search, but insertBefore is more performant.
+	// Let's use insertBefore to keep with existing logic, but we might need to re-filter if search is active.
+
+	// If search is active, it might be cleaner to just re-render table to ensure filtering applies
+	if (searchInput.value.length > 0) {
+		newTableHtml(); // This will re-render and apply filter
+	} else {
+		exchangeTableBody.insertBefore(generateNewRow([from, to]), exchangeTableBody.children[index]);
+	}
+
 	if (save)
 		autoSaveCustomExchange();
 }
@@ -140,7 +146,17 @@ function removeAlias(alias, save) {
 	let index = findExchangeIndex(alias);
 	if (index[0] === true) {
 		customExchange.splice(index[1], 1);
-		exchangeTableBody.removeChild(exchangeTableBody.childNodes[index[1]]);
+
+		// To safely remove from DOM, we should find the row with the dataset-alias
+		// The original index might not match DOM index if filtered.
+		const buttons = exchangeTableBody.querySelectorAll(".delete-btn");
+		for (let btn of buttons) {
+			if (btn.dataset.alias === alias) {
+				btn.closest("tr").remove();
+				break;
+			}
+		}
+
 		if (save)
 			autoSaveCustomExchange();
 	}
@@ -170,25 +186,40 @@ function newTableHtml() {
 	while (tableBody.firstChild)
 		tableBody.removeChild(tableBody.firstChild);
 
-	for (let i = 0; i < customExchange.length; i++)
-		tableBody.appendChild(generateNewRow(customExchange[i]));
+	const filterText = searchInput.value.toLowerCase();
+
+	for (let i = 0; i < customExchange.length; i++) {
+		const alias = customExchange[i];
+		// Filter based on key or replacement
+		if (filterText === "" || alias[0].toLowerCase().includes(filterText) || alias[1].toLowerCase().includes(filterText)) {
+			tableBody.appendChild(generateNewRow(alias));
+		}
+	}
+}
+
+function filterAliases(text) {
+	// Re-render table with filter
+	newTableHtml();
 }
 
 function generateNewRow(alias) {
 	let row = document.createElement("TR");
 	let exchange = document.createElement("TD");
 	exchange.textContent = alias[0];
-	exchange.style.width = headerWidths[0];
+	// exchange.style.width = headerWidths[0]; // Removed hardcoded width
 	row.appendChild(exchange);
 
 	let change = document.createElement("TD");
 	change.textContent = alias[1];
-	change.style.width = headerWidths[1];
+	// change.style.width = headerWidths[1]; // Removed hardcoded width
 	row.appendChild(change);
 
 	let buttonTd = document.createElement("TD");
+	buttonTd.className = "action-col";
 	let button = document.createElement("BUTTON");
-	button.innerHTML = "X";
+	button.innerHTML = "&times;"; // Standard close entity
+	button.className = "delete-btn"; // Add class for styling
+	button.title = "Delete Alias";
 	button.dataset.alias = alias[0];
 	buttonTd.appendChild(button);
 	row.appendChild(buttonTd);
