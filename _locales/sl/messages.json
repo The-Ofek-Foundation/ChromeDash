@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Vnesite pomišljaje, poudarke, grške črke in vzdevke po meri – takoj!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "Dodaj nov vzdevek",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "Ključ (npr. CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "Zamenjava (npr. ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "Dodaj",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "Izberite paket...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "Dodaj paket",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "Odstrani paket",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "Dodaj pomišljaje",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "Počisti vse",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "Išči vzdevke...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "Ključ",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "Zamenjava",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "Izbriši vzdevek",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "Omogoči za gesla",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "Omogoči za polja gesel",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "Preveč vzdevkov!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "Grške male črke",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "Grške velike črke",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "Vsi poudarki male črke",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "Vsi poudarki velike črke",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "Matematični simboli",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "Valuta in pravno",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "Ločila",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "Omogoči/Onemogoči ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "Dodaj nov vzdevek na seznam",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "Izberite paket znakov za dodajanje",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "Dodaj osnovne vzdevke pomišljajev",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "Odstrani vse vzdevke",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "Počisti vse vzdevke",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "Ali ste prepričani, da želite izbrisati vse vzdevke? Tega dejanja ni mogoče razveljaviti.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "Počisti vse",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "Prekliči",
+        "description": "Cancel button text for clear all modal"
+    }
+}

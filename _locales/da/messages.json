@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Indtast tankestreger, accenter, græske bogstaver og brugerdefinerede aliasser – øjeblikkeligt!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "Tilføj nyt alias",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "Nøgle (f.eks. CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "Erstatning (f.eks. ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "Tilføj",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "Vælg en pakke...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "Tilføj pakke",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "Fjern pakke",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "Tilføj tankestreger",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "Ryd alt",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "Søg i aliasser...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "Nøgle",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "Erstatning",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "Slet alias",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "Aktiver for adgangskoder",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "Aktiver for adgangskodefelter",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "For mange aliasser!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "Græske små bogstaver",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "Græske store bogstaver",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "Alle accenter små bogstaver",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "Alle accenter store bogstaver",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "Matematiske symboler",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "Valuta og juridisk",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "Tegnsætning",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "Aktiver/Deaktiver ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "Tilføj nyt alias til listen",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "Vælg en tegnpakke at tilføje",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "Tilføj grundlæggende tankestregsaliasser",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "Fjern alle aliasser",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "Ryd alle aliasser",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "Er du sikker på, at du vil slette alle aliasser? Denne handling kan ikke fortrydes.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "Ryd alt",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "Annuller",
+        "description": "Cancel button text for clear all modal"
+    }
+}

@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Unesite crtice, akcente, grčka slova i prilagođene pseudonime – odmah!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "Dodaj novi pseudonim",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "Ključ (npr. CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "Zamjena (npr. ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "Dodaj",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "Odaberite paket...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "Dodaj paket",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "Ukloni paket",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "Dodaj crtice",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "Očisti sve",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "Pretraga pseudonima...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "Ključ",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "Zamjena",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "Obriši pseudonim",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "Omogući za lozinke",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "Omogući za polja lozinke",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "Previše pseudonima!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "Grčka mala slova",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "Grčka velika slova",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "Svi akcenti mala slova",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "Svi akcenti velika slova",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "Matematički simboli",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "Valuta i pravni",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "Interpunkcija",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "Omogući/Onemogući ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "Dodaj novi pseudonim na listu",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "Odaberite paket karaktera za dodavanje",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "Dodaj osnovne pseudonime crtica",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "Ukloni sve pseudonime",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "Obriši sve pseudonime",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "Da li ste sigurni da želite obrisati sve pseudonime? Ova radnja se ne može opozvati.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "Obriši sve",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "Otkaži",
+        "description": "Cancel button text for clear all modal"
+    }
+}

@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Уводзьце працяжнікі, націскі, грэчаскія літары і карыстальніцкія псеўданімы – імгненна!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "Дадаць новы псеўданім",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "Ключ (напр. CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "Замена (напр. ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "Дадаць",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "Абярыце пакет...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "Дадаць пакет",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "Выдаліць пакет",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "Дадаць працяжнікі",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "Ачысціць усё",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "Пошук псеўданімаў...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "Ключ",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "Замена",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "Выдаліць псеўданім",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "Уключыць для пароляў",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "Уключыць для палёў пароляў",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "Занадта шмат псеўданімаў!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "Грэчаскія малыя літары",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "Грэчаскія вялікія літары",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "Усе націскі малыя",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "Усе націскі вялікія",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "Матэматычныя сімвалы",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "Валюта і юрыдычныя",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "Пунктуацыя",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "Уключыць/Выключыць ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "Дадаць новы псеўданім у спіс",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "Абярыце пакет сімвалаў для дадання",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "Дадаць асноўныя псеўданімы працяжнікаў",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "Выдаліць усе псеўданімы",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "Ачысціць усе псеўданімы",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "Вы ўпэўненыя, што хочаце выдаліць усе псеўданімы? Гэта дзеянне нельга адмяніць.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "Ачысціць усё",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "Адмяніць",
+        "description": "Cancel button text for clear all modal"
+    }
+}

@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "डैश, उच्चारण, ग्रीक अक्षर और कस्टम उपनाम इनपुट करें - तुरंत!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "नया उपनाम जोड़ें",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "कुंजी (जैसे CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "प्रतिस्थापन (जैसे ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "जोड़ें",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "एक पैक चुनें...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "पैक जोड़ें",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "पैक हटाएँ",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "डैश जोड़ें",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "सभी साफ़ करें",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "उपनाम खोजें...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "कुंजी",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "प्रतिस्थापन",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "उपनाम हटाएँ",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "पासवर्ड के लिए सक्षम करें",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "पासवर्ड फ़ील्ड के लिए सक्षम करें",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "बहुत अधिक उपनाम!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "ग्रीक छोटे अक्षर",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "ग्रीक बड़े अक्षर",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "सभी उच्चारण छोटे अक्षर",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "सभी उच्चारण बड़े अक्षर",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "गणितीय प्रतीक",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "मुद्रा और कानूनी",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "विराम चिह्न",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "ChromeDash सक्षम/अक्षम करें",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "सूची में नया उपनाम जोड़ें",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "जोड़ने के लिए एक वर्ण पैक चुनें",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "बुनियादी डैश उपनाम जोड़ें",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "सभी उपनाम हटाएँ",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "सभी उपनाम साफ़ करें",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "क्या आप वाकई सभी उपनाम हटाना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता है।",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "सभी साफ़ करें",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "रद्द करें",
+        "description": "Cancel button text for clear all modal"
+    }
+}

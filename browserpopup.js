@@ -269,6 +269,18 @@ function autoSaveCustomExchange() {
 }
 
 function localizeHtml() {
+	// Set direction based on current locale
+	// fallback to @@bidi_dir if textDirection is missing, but prioritize explicit key
+	let direction = chrome.i18n.getMessage("textDirection");
+	if (!direction) {
+		direction = chrome.i18n.getMessage("@@bidi_dir");
+	}
+
+	if (direction) {
+		document.documentElement.dir = direction;
+		document.body.dir = direction;
+	}
+
 	const elements = document.querySelectorAll('[data-i18n]');
 	for (let element of elements) {
 		const key = element.getAttribute('data-i18n');

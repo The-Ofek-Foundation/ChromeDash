@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "대시, 악센트, 그리스 문자 및 사용자 정의 별칭을 즉시 입력하세요!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "새 별칭 추가",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "키 (예: CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "대체 (예: ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "추가",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "팩 선택...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "팩 추가",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "팩 제거",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "대시 추가",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "모두 지우기",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "별칭 검색...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "키",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "대체",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "별칭 삭제",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "비밀번호 사용",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "비밀번호 필드 사용",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "별칭이 너무 많습니다!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "그리스어 소문자",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "그리스어 대문자",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "모든 악센트 소문자",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "모든 악센트 대문자",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "수학 기호",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "통화 및 법률",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "구두점",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "ChromeDash 활성화/비활성화",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "목록에 새 별칭 추가",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "추가할 문자 팩 선택",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "기본 대시 별칭 추가",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "모든 별칭 제거",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "모든 별칭 지우기",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "모든 별칭을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "모두 지우기",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "취소",
+        "description": "Cancel button text for clear all modal"
+    }
+}

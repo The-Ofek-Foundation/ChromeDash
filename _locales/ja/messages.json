@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "ダッシュ、アクセント記号、ギリシャ文字、カスタムエイリアスを即座に入力！",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "新しいエイリアスを追加",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "キー (例: CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "置換 (例: ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "追加",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "パックを選択...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "パックを追加",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "パックを削除",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "ダッシュを追加",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "すべてクリア",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "エイリアスを検索...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "キー",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "置換",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "エイリアスを削除",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "パスワードで有効化",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "パスワードフィールドで有効化",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "エイリアスが多すぎます！",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "ギリシャ文字小文字",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "ギリシャ文字大文字",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "すべてのアクセント小文字",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "すべてのアクセント大文字",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "数学記号",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "通貨と法律",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "句読点",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "ChromeDashを有効化/無効化",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "リストに新しいエイリアスを追加",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "追加する文字パックを選択",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "基本的なダッシュエイリアスを追加",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "すべてのエイリアスを削除",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "すべてのエイリアスをクリア",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "すべてのエイリアスを削除してもよろしいですか？この操作は元に戻せません。",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "すべてクリア",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "キャンセル",
+        "description": "Cancel button text for clear all modal"
+    }
+}

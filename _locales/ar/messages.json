@@ -1,0 +1,142 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "أدخل الشرطات، علامات التشكيل، الحروف اليونانية والألقاب المخصصة - فوراً!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "إضافة لقب جديد",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "المفتاح (مثل CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "الاستبدال (مثل ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "إضافة",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "اختر حزمة...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "إضافة حزمة",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "إزالة الحزمة",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "إضافة شرطات",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "مسح الكل",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "بحث عن الألقاب...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "المفتاح",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "الاستبدال",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "حذف اللقب",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "تمكين لكلمات المرور",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "تمكين لحقول كلمة المرور",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "ألقاب كثيرة جداً!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "اليونانية حروف صغيرة",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "اليونانية حروف كبيرة",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "كل علامات التشكيل حروف صغيرة",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "كل علامات التشكيل حروف كبيرة",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "رموز رياضية",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "عملة وقانوني",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "علامات الترقيم",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "تمكين/تعطيل ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "إضافة لقب جديد إلى القائمة",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "اختر حزمة أحرف لإضافتها",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "إضافة ألقاب الشرطة الأساسية",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "إزالة جميع الألقاب",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "مسح جميع الألقاب",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "هل أنت متأكد أنك تريد حذف جميع الألقاب؟ لا يمكن التراجع عن هذا الإجراء.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "مسح الكل",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "إلغاء",
+        "description": "Cancel button text for clear all modal"
+    },
+    "textDirection": {
+        "message": "rtl",
+        "description": "The direction of the text (ltr or rtl)"
+    }
+}

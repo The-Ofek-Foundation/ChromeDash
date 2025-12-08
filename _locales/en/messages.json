@@ -134,5 +134,9 @@
     "confirmClearNo": {
         "message": "Cancel",
         "description": "Cancel button text for clear all modal"
+    },
+    "textDirection": {
+        "message": "ltr",
+        "description": "The direction of the text (ltr or rtl)"
     }
 }
