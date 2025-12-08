@@ -1,9 +1,10 @@
 {
 	"manifest_version": 3,
-	"name": "ChromeDash",
-	"short_name": "ChromeDash",
-	"version": "2.0.6",
-	"description": "Enter dashes, accents, Greek letters, or alias in general—quickly!",
+	"name": "__MSG_appName__",
+	"short_name": "__MSG_appName__",
+	"version": "3.0.0",
+	"description": "__MSG_appDescription__",
+	"default_locale": "en",
 	"action": {
 		"default_icon": "browsericon.png",
 		"default_popup": "browserpopup.html"

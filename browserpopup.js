@@ -9,6 +9,9 @@ const removeCharacterPack = document.getElementById("remove-character-pack");
 const removeAllAliasesOption = document.getElementById("remove-all-aliases");
 const addBasicDashes = document.getElementById("add-basic-dashes");
 const searchInput = document.getElementById("alias-search");
+const confirmationModal = document.getElementById("confirmation-modal");
+const modalConfirmBtn = document.getElementById("modal-confirm");
+const modalCancelBtn = document.getElementById("modal-cancel");
 
 let currentNumFiles, saveCount;
 
@@ -52,13 +55,17 @@ function addCharacterPackOptions() {
 
 	for (const key of packKeys) {
 		option = document.createElement("option");
-		option.textContent = key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
+		// Try to look up "pack_KEY", otherwise fallback to formatted key
+		const msgName = "pack_" + key;
+		const localizedName = chrome.i18n.getMessage(msgName);
+		option.textContent = localizedName || key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
 		option.value = key;
 		characterPackSelect.add(option);
 	}
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
+	localizeHtml();
 	// alignAddRemoveAliasForms(); // Removed as UI has changed
 	inputDash.addEventListener('change', (event) => {
 		chrome.storage.sync.set({ "dashEnabled": inputDash.checked });
@@ -84,7 +91,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		removePack(characterPacks[characterPackSelect.options[characterPackSelect.selectedIndex].value]);
 	});
 	removeAllAliasesOption.addEventListener('click', (event) => {
+		confirmationModal.classList.add("active");
+	});
+
+	modalConfirmBtn.addEventListener('click', () => {
 		removeAllAliases();
+		confirmationModal.classList.remove("active");
+	});
+
+	modalCancelBtn.addEventListener('click', () => {
+		confirmationModal.classList.remove("active");
+	});
+
+	// close modal on outside click
+	confirmationModal.addEventListener('click', (e) => {
+		if (e.target === confirmationModal) {
+			confirmationModal.classList.remove("active");
+		}
 	});
 	addBasicDashes.addEventListener('click', async (event) => {
 		try {
@@ -232,7 +255,7 @@ function generateNewRow(alias) {
 	let button = document.createElement("BUTTON");
 	button.innerHTML = "&times;"; // Standard close entity
 	button.className = "delete-btn"; // Add class for styling
-	button.title = "Delete Alias";
+	button.title = chrome.i18n.getMessage("deleteAliasTitle");
 	button.dataset.alias = alias[0];
 	buttonTd.appendChild(button);
 	row.appendChild(buttonTd);
@@ -243,4 +266,33 @@ function autoSaveCustomExchange() {
 	let results = saveCustomExchange(customExchange, saveCount, currentNumFiles);
 	saveCount = results[0];
 	currentNumFiles = results[1];
+}
+
+function localizeHtml() {
+	const elements = document.querySelectorAll('[data-i18n]');
+	for (let element of elements) {
+		const key = element.getAttribute('data-i18n');
+		const message = chrome.i18n.getMessage(key);
+		if (message) {
+			element.textContent = message;
+		}
+	}
+
+	const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+	for (let element of placeholders) {
+		const key = element.getAttribute('data-i18n-placeholder');
+		const message = chrome.i18n.getMessage(key);
+		if (message) {
+			element.setAttribute('placeholder', message);
+		}
+	}
+
+	const titles = document.querySelectorAll('[data-i18n-title]');
+	for (let element of titles) {
+		const key = element.getAttribute('data-i18n-title');
+		const message = chrome.i18n.getMessage(key);
+		if (message) {
+			element.setAttribute('title', message);
+		}
+	}
 }

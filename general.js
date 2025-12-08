@@ -5,7 +5,7 @@ function saveCustomExchange(customExchange, saveCount, currentNumFiles) {
 	let set = {};
 	let fileSizeCutoff = 7500;
 	if (customExchangesByteCount > 100000) {
-		alert("Too many aliases!");
+		alert(chrome.i18n.getMessage("alertTooManyAliases"));
 		return;
 	} else if (customExchangesByteCount > fileSizeCutoff) {
 		numSplits = customExchangesByteCount / fileSizeCutoff + 1 | 0;

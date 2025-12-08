@@ -1,0 +1,138 @@
+{
+    "appName": {
+        "message": "ChromeDash",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "Enter dashes, accents, Greek letters, and custom aliases—instantly!",
+        "description": "The description of the application"
+    },
+    "addNewAlias": {
+        "message": "Add New Alias",
+        "description": "Header for the section to add a new alias"
+    },
+    "keyPlaceholder": {
+        "message": "Key (e.g., CD)",
+        "description": "Placeholder text for the alias key input"
+    },
+    "replacementPlaceholder": {
+        "message": "Replacement (e.g., ChromeDash)",
+        "description": "Placeholder text for the alias replacement input"
+    },
+    "addButton": {
+        "message": "Add",
+        "description": "Text for the add alias button"
+    },
+    "selectPackDefault": {
+        "message": "Select a Pack...",
+        "description": "Default option for the character pack selector"
+    },
+    "addPackTitle": {
+        "message": "Add Pack",
+        "description": "Tooltip title for the add pack button"
+    },
+    "removePackTitle": {
+        "message": "Remove Pack",
+        "description": "Tooltip title for the remove pack button"
+    },
+    "addDashesButton": {
+        "message": "Add Dashes",
+        "description": "Text for the button to add basic dashes"
+    },
+    "clearAllButton": {
+        "message": "Clear All",
+        "description": "Text for the button to clear all aliases"
+    },
+    "searchPlaceholder": {
+        "message": "Search aliases...",
+        "description": "Placeholder text for the search input"
+    },
+    "tableKey": {
+        "message": "Key",
+        "description": "Header for the key column in the aliases table"
+    },
+    "tableReplacement": {
+        "message": "Replacement",
+        "description": "Header for the replacement column in the aliases table"
+    },
+    "deleteAliasTitle": {
+        "message": "Delete Alias",
+        "description": "Tooltip title for the delete alias button"
+    },
+    "enablePasswords": {
+        "message": "Enable for Passwords",
+        "description": "Label text for enabling the extension in password fields"
+    },
+    "enablePasswordsTitle": {
+        "message": "Enable for password fields",
+        "description": "Tooltip title for the enable passwords checkbox wrapper"
+    },
+    "alertTooManyAliases": {
+        "message": "Too many aliases!",
+        "description": "Alert message when user tries to save too many aliases"
+    },
+    "pack_LOWERCASE_GREEK": {
+        "message": "Lowercase Greek",
+        "description": "Name of the Lowercase Greek character pack"
+    },
+    "pack_UPPERCASE_GREEK": {
+        "message": "Uppercase Greek",
+        "description": "Name of the Uppercase Greek character pack"
+    },
+    "pack_ALL_LOWERCASE_ACCENTS": {
+        "message": "All Lowercase Accents",
+        "description": "Name of the All Lowercase Accents character pack"
+    },
+    "pack_ALL_UPPERCASE_ACCENTS": {
+        "message": "All Uppercase Accents",
+        "description": "Name of the All Uppercase Accents character pack"
+    },
+    "pack_MATH_SYMBOLS": {
+        "message": "Math Symbols",
+        "description": "Name of the Math Symbols character pack"
+    },
+    "pack_CURRENCY_AND_LEGAL": {
+        "message": "Currency and Legal",
+        "description": "Name of the Currency and Legal character pack"
+    },
+    "pack_PUNCTUATION": {
+        "message": "Punctuation",
+        "description": "Name of the Punctuation character pack"
+    },
+    "toggleExtensionTitle": {
+        "message": "Enable/Disable ChromeDash",
+        "description": "Tooltip for the main enable/disable toggle"
+    },
+    "addButtonTitle": {
+        "message": "Add new alias to the list",
+        "description": "Tooltip for the Add alias button"
+    },
+    "packSelectTitle": {
+        "message": "Choose a character pack to add",
+        "description": "Tooltip for the character pack dropdown"
+    },
+    "addDashesButtonTitle": {
+        "message": "Add basic dash aliases",
+        "description": "Tooltip for the Add Dashes button"
+    },
+    "clearAllButtonTitle": {
+        "message": "Remove all aliases",
+        "description": "Tooltip for the Clear All button"
+    },
+    "confirmClearTitle": {
+        "message": "Clear All Aliases",
+        "description": "Title of the clear all confirmation modal"
+    },
+    "confirmClearMessage": {
+        "message": "Are you sure you want to delete all aliases? This action cannot be undone.",
+        "description": "Body text of the clear all confirmation modal"
+    },
+    "confirmClearYes": {
+        "message": "Clear All",
+        "description": "Confirm button text for clear all modal"
+    },
+    "confirmClearNo": {
+        "message": "Cancel",
+        "description": "Cancel button text for clear all modal"
+    }
+}

@@ -12,47 +12,56 @@
 	<div class="container">
 		<header class="header">
 			<div class="title-section">
-				<h1>ChromeDash</h1>
+				<h1 data-i18n="appName">ChromeDash</h1>
 				<div class="toggle-switch">
 					<input type="checkbox" value="None" id="slideThree" name="enable-dash" checked />
-					<label for="slideThree"></label>
+					<label for="slideThree" data-i18n-title="toggleExtensionTitle"></label>
 				</div>
 			</div>
 		</header>
 
 		<section class="add-alias-section">
-			<h2>Add New Alias</h2>
+			<h2 data-i18n="addNewAlias">Add New Alias</h2>
 			<form id="add-alias" class="inline-form">
-				<input type="text" name="alias-from" class="input-text" placeholder="Key (e.g., CD)" required>
+				<input type="text" name="alias-from" class="input-text" placeholder="Key (e.g., CD)"
+					data-i18n-placeholder="keyPlaceholder" required>
 				<span class="arrow">&rarr;</span>
 				<input type="text" name="alias-to" class="input-text" placeholder="Replacement (e.g., ChromeDash)"
-					required>
-				<button type="submit" class="btn btn-primary">Add</button>
+					data-i18n-placeholder="replacementPlaceholder" required>
+				<button type="submit" class="btn btn-primary" data-i18n="addButton"
+					data-i18n-title="addButtonTitle">Add</button>
 			</form>
 		</section>
 
 		<section class="actions-section">
 			<div class="pack-selector">
-				<select id="character-pack-select" class="select-input">
-					<option value="EMPTY" selected="selected">Select a Pack...</option>
+				<select id="character-pack-select" class="select-input" data-i18n-title="packSelectTitle">
+					<option value="EMPTY" selected="selected" data-i18n="selectPackDefault">Select a Pack...</option>
 				</select>
-				<button id="add-character-pack" class="btn btn-small" title="Add Pack">+</button>
-				<button id="remove-character-pack" class="btn btn-small btn-danger" title="Remove Pack">&minus;</button>
+				<button id="add-character-pack" class="btn btn-small" title="Add Pack"
+					data-i18n-title="addPackTitle">+</button>
+				<button id="remove-character-pack" class="btn btn-small btn-danger" title="Remove Pack"
+					data-i18n-title="removePackTitle">&minus;</button>
 			</div>
 			<div class="quick-actions">
-				<button id="add-basic-dashes" class="btn btn-secondary btn-small">Add Dashes</button>
-				<button id="remove-all-aliases" class="btn btn-danger btn-small">Clear All</button>
+				<button id="add-basic-dashes" class="btn btn-secondary btn-small" data-i18n="addDashesButton"
+					data-i18n-title="addDashesButtonTitle">Add
+					Dashes</button>
+				<button id="remove-all-aliases" class="btn btn-danger btn-small" data-i18n="clearAllButton"
+					data-i18n-title="clearAllButtonTitle">Clear
+					All</button>
 			</div>
 		</section>
 
 		<section class="aliases-list-section">
-			<input type="text" id="alias-search" class="search-bar" placeholder="Search aliases...">
+			<input type="text" id="alias-search" class="search-bar" placeholder="Search aliases..."
+				data-i18n-placeholder="searchPlaceholder">
 			<div class="table-wrapper">
 				<table id="exchange-table">
 					<thead>
 						<tr>
-							<th>Key</th>
-							<th>Replacement</th>
+							<th data-i18n="tableKey">Key</th>
+							<th data-i18n="tableReplacement">Replacement</th>
 							<th class="action-col"></th>
 						</tr>
 					</thead>
@@ -64,11 +73,22 @@
 		</section>
 
 		<footer class="footer">
-			<label class="checkbox-label" title="Enable for password fields">
+			<label class="checkbox-label" title="Enable for password fields" data-i18n-title="enablePasswordsTitle">
 				<input type="checkbox" name="enable-passwords">
-				<span>Enable for Passwords</span>
+				<span data-i18n="enablePasswords">Enable for Passwords</span>
 			</label>
 		</footer>
+	</div>
+	<div id="confirmation-modal" class="modal-overlay">
+		<div class="modal">
+			<h3 data-i18n="confirmClearTitle">Clear All Aliases</h3>
+			<p data-i18n="confirmClearMessage">Are you sure you want to delete all aliases? This action cannot be
+				undone.</p>
+			<div class="modal-actions">
+				<button id="modal-cancel" class="btn btn-secondary" data-i18n="confirmClearNo">Cancel</button>
+				<button id="modal-confirm" class="btn btn-danger" data-i18n="confirmClearYes">Clear All</button>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="browserpopup.js"></script>
 </body>
