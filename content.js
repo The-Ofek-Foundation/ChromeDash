@@ -69,6 +69,8 @@ document.addEventListener('keydown', (evt) => {
 			justUndone = true;
 			previous = current;
 			evt.preventDefault();
+			evt.stopPropagation();
+			console.log("ChromeDash: Backspace handled, defaults prevented and propagation stopped.");
 			return;
 		}
 		previous = getActiveText();
