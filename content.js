@@ -12,7 +12,6 @@ let indexRetention = -1;
 
 loadDataFromStorage();
 
-
 document.addEventListener('keypress', (evt) => {
 	if (evt.ctrlKey)
 		return;
@@ -43,7 +42,7 @@ document.addEventListener('keypress', (evt) => {
 		justUndone = false;
 	}
 	previous = current;
-});
+}, true);
 
 
 
@@ -57,7 +56,7 @@ document.addEventListener('keyup', (evt) => {
 	}
 	if (nextEnd >= -1)
 		nextEnd--;
-});
+}, true);
 
 
 function swap(current, currentIndex, exchangeLength, exchange) {
@@ -66,7 +65,7 @@ function swap(current, currentIndex, exchangeLength, exchange) {
 	indexRetention = currentIndex + exchange[1].length - exchangeLength;
 	setCaretPosition(active, indexRetention);
 	pastExchangeExists = false;
-	if (!isString(active.value))
+	if (needsComplexHandling(active))
 		nextEnd = 1;
 	return current;
 }
@@ -84,7 +83,7 @@ document.addEventListener('keydown', (evt) => {
 		let currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		if (!isString(active.value)) {
+		if (needsComplexHandling(active)) {
 			current = previous;
 			currentIndex++;
 		}
@@ -105,7 +104,7 @@ document.addEventListener('keydown', (evt) => {
 		indexRetention--;
 	else if (evt.key === 'ArrowRight')
 		indexRetention++;
-});
+}, true);
 
 
 function getActiveText() {
@@ -153,6 +152,13 @@ function chooseChild(elem) {
 
 function isString(value) {
 	return typeof value === 'string';
+}
+
+function needsComplexHandling(elem) {
+	if (isString(elem.value)) return false;
+	// Check for Lexical editor
+	if (elem.closest && elem.closest('[data-lexical-editor="true"]')) return true;
+	return false;
 }
 
 function getDifferingIndex(s1, s2) {
@@ -218,7 +224,7 @@ function doGetCaretPosition(oField) {
 		return false;
 	if (isString(oField.nodeValue))
 		return getCaretCharacterOffsetWithin(oField);
-	if (!isString(oField.value))
+	if (needsComplexHandling(oField))
 		return getCaretPosition(oField);
 	let iCaretPos = 0;
 	if (oField.selectionStart || oField.selectionStart == '0')
