@@ -18,6 +18,7 @@ const packFiles = {
 	"ALL_LOWERCASE_ACCENTS": "packs/lowercase_accents.json",
 	"ALL_UPPERCASE_ACCENTS": "packs/uppercase_accents.json",
 	"MATH_SYMBOLS": "packs/math_symbols.json",
+	"CURRENCY_AND_LEGAL": "packs/currency_legal.json",
 	"PUNCTUATION": "packs/punctuation.json"
 };
 
