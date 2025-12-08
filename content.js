@@ -7,8 +7,6 @@ let previous;
 let active;
 let pastExchangeExists = false;
 let futureCharacter = false;
-let nextEnd = -2;
-let indexRetention = -1;
 
 loadDataFromStorage();
 
@@ -19,7 +17,6 @@ document.addEventListener('keypress', (evt) => {
 	active = getActive(evt.target);
 	if (!active)
 		return;
-	indexRetention++;
 	let current = getActiveText();
 	let currentIndex = doGetCaretPosition(active);
 	if (enabled && current && currentIndex !== false) {
@@ -44,29 +41,11 @@ document.addEventListener('keypress', (evt) => {
 	previous = current;
 }, true);
 
-
-
-
-document.addEventListener('keyup', (evt) => {
-	/* Handles some annoying facebook bug */
-	if (nextEnd === 0 || nextEnd === -1) {
-		if (indexRetention > getActiveText().length)
-			indexRetention = getActiveText().length;
-		setCaretPosition(active, indexRetention);
-	}
-	if (nextEnd >= -1)
-		nextEnd--;
-}, true);
-
-
 function swap(current, currentIndex, exchangeLength, exchange) {
 	current = current.substring(0, currentIndex - exchangeLength) + exchange[1] + current.substring(currentIndex);
 	setActiveText(current);
-	indexRetention = currentIndex + exchange[1].length - exchangeLength;
-	setCaretPosition(active, indexRetention);
+	setCaretPosition(active, currentIndex + exchange[1].length - exchangeLength);
 	pastExchangeExists = false;
-	if (needsComplexHandling(active))
-		nextEnd = 1;
 	return current;
 }
 
@@ -78,32 +57,22 @@ document.addEventListener('keydown', (evt) => {
 		active = getActive(evt.target);
 		if (!active)
 			return;
-		indexRetention--;
 		current = getActiveText();
 		let currentIndex = doGetCaretPosition(active);
 		if (currentIndex === false)
 			return;
-		if (needsComplexHandling(active)) {
-			current = previous;
-			currentIndex++;
-		}
 		let exchange = getChange(current, currentIndex);
 		if (exchange) {
 			current = current.substring(0, currentIndex - exchange[1].length) + exchange[0] + current.substring(currentIndex);
 			setActiveText(current);
-			indexRetention = currentIndex - exchange[1].length + exchange[0].length;
-			setCaretPosition(active, indexRetention);
+			setCaretPosition(active, currentIndex - exchange[1].length + exchange[0].length);
 			justUndone = true;
 			previous = current;
-			nextEnd = 1;
 			evt.preventDefault();
 			return;
 		}
 		previous = getActiveText();
-	} else if (evt.key === 'ArrowLeft')
-		indexRetention--;
-	else if (evt.key === 'ArrowRight')
-		indexRetention++;
+	}
 }, true);
 
 
@@ -152,13 +121,6 @@ function chooseChild(elem) {
 
 function isString(value) {
 	return typeof value === 'string';
-}
-
-function needsComplexHandling(elem) {
-	if (isString(elem.value)) return false;
-	// Check for Lexical editor
-	if (elem.closest && elem.closest('[data-lexical-editor="true"]')) return true;
-	return false;
 }
 
 function getDifferingIndex(s1, s2) {
@@ -224,8 +186,6 @@ function doGetCaretPosition(oField) {
 		return false;
 	if (isString(oField.nodeValue))
 		return getCaretCharacterOffsetWithin(oField);
-	if (needsComplexHandling(oField))
-		return getCaretPosition(oField);
 	let iCaretPos = 0;
 	if (oField.selectionStart || oField.selectionStart == '0')
 		iCaretPos = oField.selectionStart;
@@ -287,9 +247,10 @@ function setCaretPosition(ctrl, pos) {
 	}
 }
 
+// to test, can use facebook/messenger/instagram chat
 function setCaretPositionDiv(containerEl, pos) {
-	start = end = pos;
-
+	let start = pos;
+	let end = pos;
 	if (window.getSelection && document.createRange) {
 		let charIndex = 0, range = document.createRange();
 		range.setStart(containerEl, 0);
