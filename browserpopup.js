@@ -2,7 +2,7 @@ const inputDash = document.querySelector("input[name=enable-dash]");
 const inputPasswords = document.querySelector("input[name=enable-passwords]");
 const exchangeTableBody = document.getElementById("exchange-table-body");
 const characterPackSelect = document.getElementById("character-pack-select");
-let customExchange = [["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]];
+let customExchange = [["--", "–"], ["---", "—"]];
 const addAliasForm = document.getElementById("add-alias");
 const addCharacterPack = document.getElementById("add-character-pack");
 const removeCharacterPack = document.getElementById("remove-character-pack");
@@ -12,38 +12,47 @@ const searchInput = document.getElementById("alias-search");
 
 let currentNumFiles, saveCount;
 
-const characterPacks = {
-	"EMPTY": [],
-	"LOWERCASE_GREEK": [["\\alpha", 945], ["\\beta", 946], ["\\gamma", 947], ["\\delta", 948], ["\\epsilon", 949], ["\\zeta", 950], ["\\eta", 951], ["\\theta", 952], ["\\iota", 953], ["\\kappa", 954], ["\\lambda", 955], ["\\mu", 956], ["\\nu", 957], ["\\xi", 958], ["\\omicron", 959], ["\\pi", 960], ["\\rho", 961], ["\\sigmaf", 962], ["\\sigma", 963], ["\\tau", 964], ["\\upsilon", 965], ["\\phi", 966], ["\\chi", 967], ["\\psi", 968], ["\\omega", 969]],
-	"UPPERCASE_GREEK": [["\\Alpha", 913], ["\\Beta", 914], ["\\Gamma", 915], ["\\Delta", 916], ["\\Epsilon", 917], ["\\Zeta", 918], ["\\Eta", 919], ["\\Theta", 920], ["\\Iota", 921], ["\\Kappa", 922], ["\\Lambda", 923], ["\\Mu", 924], ["\\Nu", 925], ["\\Xi", 926], ["\\Omicron", 927], ["\\Pi", 928], ["\\Rho", 929], ["\\Sigma", 931], ["\\Tau", 932], ["\\Upsilon", 933], ["\\Phi", 934], ["\\Chi", 935], ["\\Psi", 936], ["\\Omega", 937]],
-	"ALL_LOWERCASE_ACCENTS": [["oe", 339], ["s^", 353], ["a`", 224], ["a'", 225], ["a^", 226], ["a~", 227], ["a:", 228], ["a*", 229], ["ae", 230], ["c,", 231], ["e`", 232], ["e'", 233], ["e^", 234], ["e:", 235], ["i`", 236], ["i'", 237], ["i^", 238], ["i:", 239], ["d-", 240], ["n~", 241], ["o`", 242], ["o'", 243], ["o^", 244], ["o~", 245], ["o:", 246], ["o/", 248], ["u`", 249], ["u'", 250], ["u^", 251], ["u:", 252], ["y'", 253], ["|p", 254], ["y:", 255]],
-	"ALL_UPPERCASE_ACCENTS": [["Y:", 376], ["OE", 338], ["S^", 352], ["A`", 192], ["A'", 193], ["A^", 194], ["A~", 195], ["A:", 196], ["A*", 197], ["AE", 198], ["C,", 199], ["E`", 200], ["E'", 201], ["E^", 202], ["E:", 203], ["I`", 204], ["I'", 205], ["I^", 206], ["I:", 207], ["D-", 208], ["N~", 209], ["O`", 210], ["O'", 211], ["O^", 212], ["O~", 213], ["O:", 214], ["O/", 216], ["U`", 217], ["U'", 218], ["U^", 219], ["U:", 220], ["Y'", 221], ["|P", 222], ["B3", 223]],
-	"MATH_SYMBOLS": [["<=", 8804], [">=", 8805], ["+-", 177], ["=/", 8800], ["\\div", 247], ["\\mult", 215], ["\\minus", 8722], ["\\fract", 8260], ["\\sqrt", 8730], ["\\cbrt", 8731], ["\\4rt", 8732], ["\\rel", 8733], ["\\inf", 8734], ["\\aleph", 8501], ["\\func", 402], ["\\prime", 8242], ["\\there4", 8756], ["\\dot", 8901], ["^0", 8304], ["^1", 185], ["^2", 178], ["^3", 179], ["^4", 8308], ["^5", 8309], ["^6", 8310], ["^7", 8311], ["^8", 8312], ["^9", 8313], ["^+", 8314], ["^-", 8315], ["^i", 8305], ["^n", 8319], ["_0", 8320], ["_1", 8321], ["_2", 8322], ["_3", 8323], ["_4", 8324], ["_5", 8325], ["_6", 8326], ["_7", 8327], ["_8", 8328], ["_9", 8329], ["_+", 8330], ["_-", 8331], ["_n", 8345], ["_i", 7522], ["1/4", 188], ["1/2", 189], ["3/4", 190], ["1/3", 8531], ["2/3", 8532], ["1/5", 8533], ["2/5", 8534], ["3/5", 8535], ["4/5", 8536], ["1/6", 8537], ["5/6", 8538], ["1/8", 8539], ["3/8", 8540], ["5/8", 8541], ["7/8", 8542], ["\\sum", 8721], ["\\prod", 8719], ["\\deg", 176], ["\\permil", 8240], ["\\int", 8747], ["\\part", 8706]],
+const packFiles = {
+	"LOWERCASE_GREEK": "packs/lowercase_greek.json",
+	"UPPERCASE_GREEK": "packs/uppercase_greek.json",
+	"ALL_LOWERCASE_ACCENTS": "packs/lowercase_accents.json",
+	"ALL_UPPERCASE_ACCENTS": "packs/uppercase_accents.json",
+	"MATH_SYMBOLS": "packs/math_symbols.json",
+	"PUNCTUATION": "packs/punctuation.json"
 };
 
-// chrome.storage.sync.get(function (result) {
-// 	console.log(result);
-// });
+let characterPacks = {};
 
-function setCharacterPacks() {
-	let i, pack;
-	for (let key in characterPacks) {
-		pack = characterPacks[key];
-		for (i = 0; i < pack.length; i++)
-			if (typeof pack[i][1] === "number")
-				pack[i][1] = String.fromCharCode(pack[i][1]);
+async function loadSystemPacks() {
+	const promises = [];
+	const packKeys = Object.keys(packFiles);
+
+	for (const key of packKeys) {
+		promises.push(fetch(packFiles[key]).then(response => response.json()));
+	}
+
+	try {
+		const results = await Promise.all(promises);
+		for (let i = 0; i < results.length; i++) {
+			characterPacks[packKeys[i]] = results[i];
+		}
+		addCharacterPackOptions();
+	} catch (error) {
+		console.error("Failed to load character packs:", error);
 	}
 }
-setCharacterPacks();
 
 function addCharacterPackOptions() {
 	let option, pack;
-	for (pack in characterPacks) {
-		if (pack === "EMPTY")
-			continue;
+	const packKeys = Object.keys(characterPacks);
+
+	// Add "Select a Pack..." default if not present (handled in HTML, but logic here assumes explicit addition)
+	// Actually, the HTML has "EMPTY" value option. We should filter that or just append.
+
+	for (const key of packKeys) {
 		option = document.createElement("option");
-		option.textContent = pack.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-		option.value = pack;
+		option.textContent = key.replace(/_/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
+		option.value = key;
 		characterPackSelect.add(option);
 	}
 }
@@ -63,9 +72,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		addAlias(aliasFrom.value, aliasTo.value, true);
 		aliasFrom.value = "";
 		aliasTo.value = "";
-		if (event.preventDefault)
-			event.preventDefault();
-		event.returnValue = false;
+		event.preventDefault();
 	});
 	// Remove alias form listener removed as form is deleted
 
@@ -78,8 +85,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	removeAllAliasesOption.addEventListener('click', (event) => {
 		removeAllAliases();
 	});
-	addBasicDashes.addEventListener('click', (event) => {
-		addPack([["--", String.fromCharCode(8211)], ["---", String.fromCharCode(8212)]]);
+	addBasicDashes.addEventListener('click', async (event) => {
+		try {
+			const dashes = await fetch("packs/basic_dashes.json").then(r => r.json());
+			addPack(dashes);
+		} catch (e) {
+			console.error("Failed to load basic dashes:", e);
+		}
 	});
 	exchangeTableBody.addEventListener('click', (event) => {
 		if (event.target.dataset.alias)
@@ -91,7 +103,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		filterAliases(event.target.value);
 	});
 
-	addCharacterPackOptions();
+	loadSystemPacks();
 	// Dynamic header width calc removed
 });
 
@@ -166,7 +178,7 @@ function removeAlias(alias, save) {
 function removeAllAliases() {
 	customExchange = [];
 	newTableHtml();
-	customExchangeExchange(customExchange);
+	autoSaveCustomExchange();
 }
 
 function addPack(pack) {
